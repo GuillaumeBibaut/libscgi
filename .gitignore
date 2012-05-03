@@ -1,0 +1,11 @@
+*.o
+*.a
+*.la
+*.lo
+*.so
+*~
+.svn*
+.*swp
+*.tmp
+.DS_Store
+._.DS_Store
