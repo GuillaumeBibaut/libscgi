@@ -24,42 +24,19 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef __SCGI_HEADER_CT_H__
+#define __SCGI_HEADER_CT_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "scgi.h"
 
+#define SCGI_HEADER_CONTENT_TYPE "Content-Type"
 
-#include "scgi-header-ct.h"
+#define CT_TEXT_PLAIN "text/plain"
+#define CT_TEXT_HTML "text/html"
+#define CT_TEXT_XML "text/xml"
 
+extern t_scgi_header * scgi_header_ct_create(const char *content_type);
 
-static char * _scgi_header_ct_tostring(t_cgi_header *header);
-static void _scgi_header_ct_free_data(void *data);
+extern void scgi_header_ct_free(t_scgi_header *header);
 
-
-t_cgi_header *scgi_header_ct_create(const char *content_type) {
-
-    return(scgi_header_create(SCGI_HEADER_CONTENT_TYPE, strdup(content_type), _scgi_header_ct_tostring, _scgi_header_ct_free_data));
-}
-
-void scgi_header_ct_free(t_cgi_header *header) {
-
-    header->free(header->data);
-    free(header);
-    header = NULL;
-}
-
-static char * _scgi_header_ct_tostring(t_cgi_header *header) {
-
-    if (header->data) {
-        return(strdup((char *)header->data));
-    }
-    return(NULL);
-}
-
-static void _scgi_header_ct_free_data(void *data) {
-    if (data) {
-        free(data);
-        data = NULL;
-    }
-}
+#endif /* __SCGI_HEADER_CT_H__ */

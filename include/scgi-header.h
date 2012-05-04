@@ -40,7 +40,7 @@ typedef struct scgi_header {
     bool _writen;
 
     /* a header has to know how to print out */
-    char * (*tostring)(struct scgi_header header);
+    char * (*tostring)(struct scgi_header *header);
 
     /* a header has to know how to free its data memory */
     void (*free)(void *data);

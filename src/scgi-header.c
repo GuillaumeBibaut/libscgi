@@ -31,7 +31,7 @@
 
 #include "scgi.h"
 
-t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_cgi_header *), void (*free_data_func)(void *)) {
+t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *)) {
     t_scgi_header *l_header = NULL;
 
     l_header = (t_scgi_header *)malloc(sizeof(t_scgi_header));

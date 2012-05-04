@@ -31,7 +31,7 @@
 #include <stdbool.h>
 #include <sys/queue.h>
 
-#include "scgi_header.h"
+#include "scgi-header.h"
 
 
 #define SCGI_EOL "\r\n"
