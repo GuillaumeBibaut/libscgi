@@ -39,6 +39,8 @@ t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostrin
         return((t_scgi_header *)NULL);
     }
 
+    l_header->_writen = false;
+
     l_header->data = data;
     l_header->tostring = tostring_func;
     l_header->free = free_data_func;
@@ -50,7 +52,7 @@ void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
     char *out_data;
 
     out_data = header->tostring(header);
-    if (out_data) {
+    if (out_data && !header->_writen) {
         fprintf(stream, "%s: %s%s", header->name, out_data, SCGI_EOL);
         free(out_data);
         header->_writen = true;
