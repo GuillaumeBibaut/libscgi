@@ -24,17 +24,3 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef __SCGI_HEADER_H__
-#define __SCGI_HEADER_H__
-
-
-typedef struct scgi_header {
-    const char *name;
-    void *data;
-
-    char * (*tostring)(struct scgi_header header);
-} t_scgi_header;
-
-
-#endif /* __SCGI_HEADER_H__ */
