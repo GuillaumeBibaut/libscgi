@@ -25,38 +25,33 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SCGI_HEADER_H__
-#define __SCGI_HEADER_H__
-
 #include <stdio.h>
+#include <stdlib.h>
 
-/* Type */
+#include "scgi.h"
 
-typedef struct scgi_header {
-    const char *name;
-    void *data;
+t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_cgi_header *), void (*free_data_func)(void *)) {
+    t_scgi_header *l_header = NULL;
 
-    /* a header has to know how to print out */
-    char * (*tostring)(struct scgi_header header);
+    l_header = (t_scgi_header *)malloc(sizeof(t_scgi_header));
+    if (l_header == NULL) {
+        return((t_scgi_header *)NULL);
+    }
 
-    /* a header has to know how to free its data memory */
-    void (*free)(void *data);
-} t_scgi_header;
+    l_header->data = data;
+    l_header->tostring = tostring_func;
+    l_header->free = free_data_func;
 
-/* For instance, if you create a Content-Type header that should be print out :
- * 
- * Content-Type: text/plain
- *
- * then the 'name' of your header has to be "Content-Type"
- */
+    return(l_header);
+} 
 
+void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
+    char *out_data;
 
-/* Methods */
+    out_data = header->tostring(header);
+    if (out_data) {
+        fprintf(stream, "%s: %s%s", header->name, out_data, SCGI_EOL);
+        free(out_data);
+    }
+}
 
-extern t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
-
-extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
-#define scgi_header_print(h) scgi_header_fprint(stdout, h)
-
-
-#endif /* __SCGI_HEADER_H__ */

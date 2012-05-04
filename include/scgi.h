@@ -25,38 +25,35 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SCGI_HEADER_H__
-#define __SCGI_HEADER_H__
+#ifndef __SCGI_H__
+#define __SCGI_H__
 
-#include <stdio.h>
+#include <stdbool.h>
+#include <sys/queue.h>
 
-/* Type */
-
-typedef struct scgi_header {
-    const char *name;
-    void *data;
-
-    /* a header has to know how to print out */
-    char * (*tostring)(struct scgi_header header);
-
-    /* a header has to know how to free its data memory */
-    void (*free)(void *data);
-} t_scgi_header;
-
-/* For instance, if you create a Content-Type header that should be print out :
- * 
- * Content-Type: text/plain
- *
- * then the 'name' of your header has to be "Content-Type"
- */
+#include "scgi_header.h"
 
 
-/* Methods */
+#define SCGI_EOL "\r\n"
+#define SCGI_EOLSZ ((size_t)2)
 
-extern t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
-
-extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
-#define scgi_header_print(h) scgi_header_fprint(stdout, h)
+#define SCGI_EOR SCGI_EOL SCGI_EOL
+#define SCGI_EORSZ (SCGI_EOLSZ + SCGI_EOLSZ)
 
 
-#endif /* __SCGI_HEADER_H__ */
+struct scgi_header_entry {
+    t_scgi_header *header;
+
+    TAILQ_ENTRY(scgi_header_entry) entry;
+};
+
+typedef struct scgi {
+
+    TAILQ_HEAD(,scgi_header_entry) headers;
+
+    bool writen;
+
+} t_scgi;
+
+
+#endif /* __SCGI_H__ */

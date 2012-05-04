@@ -25,38 +25,41 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SCGI_HEADER_H__
-#define __SCGI_HEADER_H__
-
 #include <stdio.h>
-
-/* Type */
-
-typedef struct scgi_header {
-    const char *name;
-    void *data;
-
-    /* a header has to know how to print out */
-    char * (*tostring)(struct scgi_header header);
-
-    /* a header has to know how to free its data memory */
-    void (*free)(void *data);
-} t_scgi_header;
-
-/* For instance, if you create a Content-Type header that should be print out :
- * 
- * Content-Type: text/plain
- *
- * then the 'name' of your header has to be "Content-Type"
- */
+#include <stdlib.h>
+#include <string.h>
 
 
-/* Methods */
-
-extern t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
-
-extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
-#define scgi_header_print(h) scgi_header_fprint(stdout, h)
+#include "scgi-header-ct.h"
 
 
-#endif /* __SCGI_HEADER_H__ */
+static char * _scgi_header_ct_tostring(t_cgi_header *header);
+static void _scgi_header_ct_free_data(void *data);
+
+
+t_cgi_header *scgi_header_ct_create(const char *content_type) {
+
+    return(scgi_header_create(SCGI_HEADER_CONTENT_TYPE, strdup(content_type), _scgi_header_ct_tostring, _scgi_header_ct_free_data));
+}
+
+void scgi_header_ct_free(t_cgi_header *header) {
+
+    header->free(header->data);
+    free(header);
+    header = NULL;
+}
+
+static char * _scgi_header_ct_tostring(t_cgi_header *header) {
+
+    if (header->data) {
+        return(strdup((char *)header->data));
+    }
+    return(NULL);
+}
+
+static void _scgi_header_ct_free_data(void *data) {
+    if (data) {
+        free(data);
+        data = NULL;
+    }
+}

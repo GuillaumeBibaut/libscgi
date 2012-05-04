@@ -24,39 +24,19 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+#ifndef __SCGI_HEADER_CT_H__
+#define __SCGI_HEADER_CT_H__
 
-#ifndef __SCGI_HEADER_H__
-#define __SCGI_HEADER_H__
+#include "scgi-header.h"
 
-#include <stdio.h>
+#define SCGI_HEADER_CONTENT_TYPE "Content-Type"
 
-/* Type */
+#define CT_TEXT_PLAIN "text/plain"
+#define CT_TEXT_HTML "text/html"
+#define CT_TEXT_XML "text/xml"
 
-typedef struct scgi_header {
-    const char *name;
-    void *data;
+extern t_scgi_header scgi_header_ct_create(const char *content_type);
 
-    /* a header has to know how to print out */
-    char * (*tostring)(struct scgi_header header);
+extern void scgi_header_ct_free(t_cgi_header *header);
 
-    /* a header has to know how to free its data memory */
-    void (*free)(void *data);
-} t_scgi_header;
-
-/* For instance, if you create a Content-Type header that should be print out :
- * 
- * Content-Type: text/plain
- *
- * then the 'name' of your header has to be "Content-Type"
- */
-
-
-/* Methods */
-
-extern t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
-
-extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
-#define scgi_header_print(h) scgi_header_fprint(stdout, h)
-
-
-#endif /* __SCGI_HEADER_H__ */
+#endif /* __SCGI_HEADER_CT_H__ */

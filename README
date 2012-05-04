@@ -1,0 +1,9 @@
+Master thoughts : Simple, Delegated
+
+One creating header is responsible for its life cycle.
+
+This library is an attempt to make it a bit clearer about how a C CGI
+should work, and about what should be the minimum assets to make a C
+CGI work.
+
+
