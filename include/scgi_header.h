@@ -29,12 +29,11 @@
 #define __SCGI_HEADER_H__
 
 
-typedef char *(*scgi_header_tostring_func)(void *data);
-
 typedef struct scgi_header {
     const char *name;
     void *data;
-    scgi_header_tostring_func tostring;
+
+    char * (*tostring)(struct scgi_header header);
 } t_scgi_header;
 
 
