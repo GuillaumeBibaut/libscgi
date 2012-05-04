@@ -27,7 +27,7 @@
 #ifndef __SCGI_HEADER_CT_H__
 #define __SCGI_HEADER_CT_H__
 
-#include "scgi-header.h"
+#include "scgi.h"
 
 #define SCGI_HEADER_CONTENT_TYPE "Content-Type"
 

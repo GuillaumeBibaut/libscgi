@@ -27,6 +27,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 #include "scgi.h"
 
@@ -52,6 +53,7 @@ void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
     if (out_data) {
         fprintf(stream, "%s: %s%s", header->name, out_data, SCGI_EOL);
         free(out_data);
+        header->_writen = true;
     }
 }
 

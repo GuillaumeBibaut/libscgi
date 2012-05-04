@@ -29,12 +29,15 @@
 #define __SCGI_HEADER_H__
 
 #include <stdio.h>
+#include <stdbool.h>
 
 /* Type */
 
 typedef struct scgi_header {
     const char *name;
     void *data;
+
+    bool _writen;
 
     /* a header has to know how to print out */
     char * (*tostring)(struct scgi_header header);
