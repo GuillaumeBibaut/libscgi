@@ -26,10 +26,12 @@
  */
 
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
 
 #include "scgi.h"
+
 
 t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *)) {
     t_scgi_header *l_header = NULL;
@@ -39,14 +41,16 @@ t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostrin
         return((t_scgi_header *)NULL);
     }
 
-    l_header->_writen = false;
-
+    l_header->name = name;
     l_header->data = data;
     l_header->tostring = tostring_func;
     l_header->free = free_data_func;
 
+    l_header->_writen = false;
+
     return(l_header);
 } 
+
 
 void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
     char *out_data;
@@ -57,5 +61,21 @@ void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
         free(out_data);
         header->_writen = true;
     }
+}
+
+
+t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *headers) {
+    struct scgi_header_entry *hd;
+    
+    if (headers == NULL) {
+        return((t_scgi_header *)NULL);
+    }
+
+    TAILQ_FOREACH(hd, headers, entry) {
+        if (strcmp(hd->header->name, name) == 0) {
+            return(hd->header);
+        }
+    }
+    return((t_scgi_header *)NULL);
 }
 

@@ -46,6 +46,14 @@ typedef struct scgi_header {
     void (*free)(void *data);
 } t_scgi_header;
 
+struct scgi_header_entry {
+    t_scgi_header *header;
+
+    TAILQ_ENTRY(scgi_header_entry) entry;
+};
+
+TAILQ_HEAD(scgi_headers_head, scgi_header_entry);
+
 /* For instance, if you create a Content-Type header that should be print out :
  * 
  * Content-Type: text/plain
@@ -56,10 +64,11 @@ typedef struct scgi_header {
 
 /* Methods */
 
-extern t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
+extern t_scgi_header * scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
 
 extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
 #define scgi_header_print(h) scgi_header_fprint(stdout, h)
 
+extern t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *headers);
 
 #endif /* __SCGI_HEADER_H__ */

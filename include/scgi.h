@@ -28,10 +28,12 @@
 #ifndef __SCGI_H__
 #define __SCGI_H__
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <sys/queue.h>
 
 #include "scgi-header.h"
+#include "scgi-header-ct.h"
 
 
 #define SCGI_EOL "\r\n"
@@ -41,19 +43,48 @@
 #define SCGI_EORSZ (SCGI_EOLSZ + SCGI_EOLSZ)
 
 
-struct scgi_header_entry {
-    t_scgi_header *header;
+/* Types */
 
-    TAILQ_ENTRY(scgi_header_entry) entry;
+struct scgi_hash {
+    char *key;
+    char *value;
+
+    TAILQ_ENTRY(scgi_hash) entry;
 };
+
+TAILQ_HEAD(scgi_hash_head, scgi_hash);
 
 typedef struct scgi {
 
-    TAILQ_HEAD(,scgi_header_entry) headers;
-
+    FILE *outstream;
     bool writen;
 
+    struct scgi_hash_head envs;
+
+    struct scgi_headers_head headers;
+
 } t_scgi;
+
+
+/* Methods */
+
+extern t_scgi * scgi_init(void);
+
+extern char * scgi_envs_lookup(const char *key, t_scgi *ctx);
+
+extern void scgi_set_content_type(t_scgi *ctx, const char *content_type);
+
+extern void scgi_headers_print(t_scgi *ctx);
+
+extern void scgi_printf(t_scgi *ctx, const char *fmt, ...);
+
+#define scgi_envs_print(c) \
+    do { \
+        struct scgi_hash *ev; \
+        TAILQ_FOREACH(ev, &((c))->envs, entry) { \
+            scgi_printf((c), "envs[%s] = \"%s\"\n", ev->key, ev->value); \
+        } \
+    } while(0)
 
 
 #endif /* __SCGI_H__ */

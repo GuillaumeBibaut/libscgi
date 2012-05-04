@@ -39,8 +39,9 @@ static void _scgi_header_ct_free_data(void *data);
 
 t_scgi_header *scgi_header_ct_create(const char *content_type) {
 
-    return(scgi_header_create(SCGI_HEADER_CONTENT_TYPE, strdup(content_type), _scgi_header_ct_tostring, _scgi_header_ct_free_data));
+    return(scgi_header_create(SCGI_CONTENT_TYPE, strdup(content_type), _scgi_header_ct_tostring, _scgi_header_ct_free_data));
 }
+
 
 void scgi_header_ct_free(t_scgi_header *header) {
 
@@ -49,6 +50,7 @@ void scgi_header_ct_free(t_scgi_header *header) {
     header = NULL;
 }
 
+
 static char * _scgi_header_ct_tostring(t_scgi_header *header) {
 
     if (header->data) {
@@ -56,6 +58,7 @@ static char * _scgi_header_ct_tostring(t_scgi_header *header) {
     }
     return(NULL);
 }
+
 
 static void _scgi_header_ct_free_data(void *data) {
     if (data) {

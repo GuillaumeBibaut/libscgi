@@ -29,14 +29,16 @@
 
 #include "scgi.h"
 
-#define SCGI_HEADER_CONTENT_TYPE "Content-Type"
+#define SCGI_CONTENT_TYPE "Content-Type"
 
-#define CT_TEXT_PLAIN "text/plain"
-#define CT_TEXT_HTML "text/html"
-#define CT_TEXT_XML "text/xml"
+#define SCGI_TEXT_PLAIN "text/plain"
+#define SCGI_TEXT_HTML "text/html"
+#define SCGI_TEXT_XML "text/xml"
 
 extern t_scgi_header * scgi_header_ct_create(const char *content_type);
 
 extern void scgi_header_ct_free(t_scgi_header *header);
+
+#define scgi_header_ct_set(h, ct) (h).data = strdup((ct))
 
 #endif /* __SCGI_HEADER_CT_H__ */
