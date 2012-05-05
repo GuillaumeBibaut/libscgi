@@ -25,75 +25,25 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef __SCGI_H__
-#define __SCGI_H__
+#ifndef __SCGI_COOKIE_H__
+#define __SCGI_COOKIE_H__
 
-#include <stdio.h>
 #include <stdbool.h>
-#include <sys/queue.h>
+#include <time.h>
 
-#include "scgi-helpers.h"
-#include "scgi-header.h"
-#include "scgi-header-ct.h"
-#include "scgi-cookie.h"
-#include "scgi-header-cookie.h"
+#define SCGI_COOKIE_SZ ((size_t)4096)
 
-
-#define SCGI_EOL "\r\n"
-#define SCGI_EOLSZ ((size_t)2)
-
-#define SCGI_EOR SCGI_EOL SCGI_EOL
-#define SCGI_EORSZ (SCGI_EOLSZ + SCGI_EOLSZ)
-
-
-/* Types */
-
-struct scgi_hash {
-    char *key;
+typedef struct scgi_cookie {
+    char *name;
     char *value;
-
-    TAILQ_ENTRY(scgi_hash) entry;
-};
-
-TAILQ_HEAD(scgi_hash_head, scgi_hash);
-
-typedef struct scgi {
-
-    FILE *outstream;
-    bool writen;
-
-    struct scgi_hash_head envs;
-
-    struct scgi_headers_head headers;
-
-} t_scgi;
+    time_t expire;
+    char *path;
+    char *domain;
+    bool secure;
+} t_scgi_cookie;
 
 
-/* Methods */
-
-extern t_scgi * scgi_init(void);
-
-extern char * scgi_envs_lookup(const char *key, t_scgi *ctx);
-
-extern void scgi_set_content_type(t_scgi *ctx, const char *content_type);
-
-extern void scgi_headers_print(t_scgi *ctx);
-
-extern void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure);
-
-extern void scgi_set_cookie_permanent(t_scgi *ctx, const char *name, const char *value, const char *path, const char *domain, bool secure);
-
-extern void scgi_clear_cookie(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure);
-
-extern void scgi_printf(t_scgi *ctx, const char *fmt, ...);
-
-#define scgi_envs_print(c) \
-    do { \
-        struct scgi_hash *ev; \
-        TAILQ_FOREACH(ev, &((c))->envs, entry) { \
-            scgi_printf((c), "envs[%s] = \"%s\"<br />\n", ev->key, ev->value); \
-        } \
-    } while(0)
+extern t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure);
 
 
-#endif /* __SCGI_H__ */
+#endif /* __SCGI_COOKIE_H__ */

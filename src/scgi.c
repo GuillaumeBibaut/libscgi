@@ -91,24 +91,6 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
 }
 
 
-void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
-    t_scgi_header *header;
-    struct scgi_header_entry *he;
-
-    header = scgi_headers_lookup(SCGI_CONTENT_TYPE, &(ctx->headers));
-    if (header) {
-        scgi_header_ct_set(header, content_type);
-    } else {
-        header = scgi_header_ct_create(content_type);
-        he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
-        if (he) {
-            he->header = header;
-            TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
-        }
-    }
-}
-
-
 void scgi_headers_print(t_scgi *ctx) {
     struct scgi_header_entry *he;
 
@@ -132,3 +114,59 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     va_end(ap);
 }
 
+
+void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
+    t_scgi_header *header;
+    struct scgi_header_entry *he;
+
+    header = scgi_headers_lookup(SCGI_CONTENT_TYPE, &(ctx->headers));
+    if (header) {
+        scgi_header_ct_set(header, content_type);
+    } else {
+        header = scgi_header_ct_create(content_type);
+        he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+        if (he) {
+            he->header = header;
+            TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+        }
+    }
+}
+
+
+void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
+    t_scgi_header *header;
+    t_scgi_cookie *cookie;
+    struct scgi_header_entry *he;
+
+    header = scgi_header_cookies_lookup(name, &(ctx->headers));
+    if (header) {
+        if (header->data) {
+            header->free(header->data);
+        }
+        cookie = scgi_cookie_create(name, value, expire, path, domain, secure);
+        if (cookie != NULL) {
+            header->data = cookie;
+        }
+    } else {
+        header = scgi_header_cookie_create(name, value, expire, path, domain, secure);
+        if (header != NULL) {
+            he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+            if (he) {
+                he->header = header;
+                TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+            }
+        }
+    }
+}
+
+
+void scgi_set_cookie_permanent(t_scgi *ctx, const char *name, const char *value, const char *path, const char *domain, bool secure) {
+
+    scgi_set_cookie(ctx, name, value, SCGI_COOKIE_PERMANENT, path, domain, secure);
+}
+
+
+void scgi_clear_cookie(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure) {
+
+    scgi_set_cookie(ctx, name, NULL, -1, path, domain, secure);
+}
