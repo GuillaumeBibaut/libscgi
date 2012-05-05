@@ -60,7 +60,7 @@ void scgi_header_cookie_free(t_scgi_header *header) {
 t_scgi_header * scgi_header_cookies_lookup(const char *name, struct scgi_headers_head *headers) {
     struct scgi_header_entry *he;
 
-    if (headers == NULL) {
+    if (TAILQ_EMPTY(headers)) {
         return((t_scgi_header *)NULL);
     }
     TAILQ_FOREACH(he, headers, entry) {

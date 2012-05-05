@@ -81,7 +81,6 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
     if (TAILQ_EMPTY(&(ctx->envs))) {
         return((char *)NULL);
     }
-
     TAILQ_FOREACH(ev, &(ctx->envs), entry) {
         if (strcmp(ev->key, key) == 0) {
             return(ev->value);

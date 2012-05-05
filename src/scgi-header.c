@@ -67,10 +67,9 @@ void scgi_header_fprint(FILE *stream, t_scgi_header *header) {
 t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *headers) {
     struct scgi_header_entry *hd;
     
-    if (headers == NULL) {
+    if (TAILQ_EMPTY(headers)) {
         return((t_scgi_header *)NULL);
     }
-
     TAILQ_FOREACH(hd, headers, entry) {
         if (strcmp(hd->header->name, name) == 0) {
             return(hd->header);
