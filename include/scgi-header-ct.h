@@ -39,6 +39,6 @@ extern t_scgi_header * scgi_header_ct_create(const char *content_type);
 
 extern void scgi_header_ct_free(t_scgi_header *header);
 
-#define scgi_header_ct_set(h, ct) (h).data = strdup((ct))
+#define scgi_header_ct_set(hp, ct) (hp)->data = strdup((ct))
 
 #endif /* __SCGI_HEADER_CT_H__ */
