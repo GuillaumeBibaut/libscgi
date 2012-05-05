@@ -3,5 +3,4 @@
   * 'Location' + 'Status' : scgi_redirect(url, permanent)
   * 'Pragma', for cache control
   * 'Expires', also for cache
-  * 'Set-cookie', for cookies (really...)
 
