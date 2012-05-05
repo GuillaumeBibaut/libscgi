@@ -1,8 +1,8 @@
-PROG=		test-scgi
+PROG=		scgi-simple
 
-CFLAGS+=	-I../include
+CFLAGS+=	-I../../include
 
-LDADD+=		-L../src -lscgi
+LDADD+=		-L../../src -lscgi
 
 SRCS+=		program.c
 
