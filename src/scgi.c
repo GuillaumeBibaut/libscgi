@@ -120,7 +120,10 @@ void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
 
     header = scgi_headers_lookup(SCGI_CONTENT_TYPE, &(ctx->headers));
     if (header) {
-        scgi_header_ct_set(header, content_type);
+        if (header->data) {
+            header->free(header->data);
+        }
+        scgi_header_ct_set(header, strdup(content_type));
     } else {
         header = scgi_header_ct_create(content_type);
         he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
