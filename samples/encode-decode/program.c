@@ -23,6 +23,8 @@ int main(void) {
     free(encoded);
     free(decoded);
 
+    scgi_free(ctx);
+
     return(0);
 }
 

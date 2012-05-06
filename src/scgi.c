@@ -75,6 +75,33 @@ t_scgi *scgi_init(void) {
 }
 
 
+void scgi_free(t_scgi *ctx) {
+    struct scgi_hash *ev, *evn;
+    struct scgi_header_entry *he, *hen;
+
+    he = TAILQ_FIRST(&(ctx->headers));
+    while (he != NULL) {
+        hen = TAILQ_NEXT(he, entry);
+        if (he->header->data) {
+            he->header->free(he->header->data);
+        }
+        free(he);
+        he = hen;
+    }
+    TAILQ_INIT(&(ctx->headers));
+
+    ev = TAILQ_FIRST(&(ctx->envs));
+    while (ev != NULL) {
+        evn = TAILQ_NEXT(ev, entry);
+        free(ev);
+        ev = evn;
+    }
+    TAILQ_INIT(&(ctx->envs));
+
+    free(ctx);
+}
+
+
 char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
     struct scgi_hash *ev;
     

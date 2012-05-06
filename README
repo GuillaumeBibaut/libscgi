@@ -6,5 +6,23 @@ This library is an attempt to make it a bit clearer about how a C CGI
 should work, and about what should be the minimum assets to make a C
 CGI work.
 
-Early stage library = /!\ ** Check TODO ** /!\
+
+FYI.:
+This library is currently under development.
+It's usable in its current state, you can check samples and you would
+see it's really simple to use.
+
+You can check TODO for upcoming features.
+
+If you need a particular header, feel free to hack one and to do a
+pull request with a sample to use it. I'll check if it match the
+current code and I'll try to test it.
+Be sure to check how a header is developed with scgi-header-cookie.c
+as an example.
+
+Keep in mind this library is FreeBSD oriented, I won't accept any
+external library use or import.
+
+Documentation ?
+The code is. I'll add as much comment as I can inside to describe it.
 

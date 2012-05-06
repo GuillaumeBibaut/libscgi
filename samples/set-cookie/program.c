@@ -13,6 +13,8 @@ int main(void) {
 
     scgi_envs_print(ctx);
 
+    scgi_free(ctx);
+
     return(0);
 }
 

@@ -73,6 +73,8 @@ typedef struct scgi {
 
 extern t_scgi * scgi_init(void);
 
+extern void scgi_free(t_scgi *ctx);
+
 extern char * scgi_envs_lookup(const char *key, t_scgi *ctx);
 
 extern void scgi_set_content_type(t_scgi *ctx, const char *content_type);

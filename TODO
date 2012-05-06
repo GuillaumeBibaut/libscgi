@@ -1,4 +1,3 @@
-* scgi_free: something to free all the mess around
 * Headers :
   * 'Location' + 'Status' : scgi_redirect(url, permanent)
   * 'Pragma', for cache control
