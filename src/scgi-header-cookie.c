@@ -30,6 +30,8 @@
 #include <stdlib.h>
 #include <time.h>
 
+#include "scgi-helpers.h"
+#include "scgi-cookie.h"
 #include "scgi-header-cookie.h"
 
 
@@ -37,7 +39,12 @@ static char *scgi_cookie_tostring(t_scgi_header *header);
 static void scgi_cookie_freedata(void *data);
 
 
-t_scgi_header * scgi_header_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
+t_scgi_header * scgi_header_cookie_create(const char *name,
+    const char *value,
+    time_t expire,
+    const char *path,
+    const char *domain,
+    bool secure) {
     t_scgi_cookie *cookie;
 
     cookie = scgi_cookie_create(name, value, expire, path, domain, secure);

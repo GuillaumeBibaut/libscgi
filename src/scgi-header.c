@@ -30,7 +30,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "scgi.h"
+#include "scgi-defines.h"
+#include "scgi-header.h"
 
 
 t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *)) {

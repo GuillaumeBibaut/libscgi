@@ -27,7 +27,7 @@
 #ifndef __SCGI_HEADER_CT_H__
 #define __SCGI_HEADER_CT_H__
 
-#include "scgi.h"
+#include "scgi-header.h"
 
 #define SCGI_CONTENT_TYPE "Content-Type"
 
@@ -35,9 +35,9 @@
 #define SCGI_TEXT_HTML "text/html"
 #define SCGI_TEXT_XML "text/xml"
 
-extern t_scgi_header * scgi_header_ct_create(const char *content_type);
+t_scgi_header * scgi_header_ct_create(const char *content_type);
 
-extern void scgi_header_ct_free(t_scgi_header *header);
+void scgi_header_ct_free(t_scgi_header *header);
 
 #define scgi_header_ct_set(hp, ct) (hp)->data = strdup((ct))
 

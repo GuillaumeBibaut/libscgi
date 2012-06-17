@@ -43,7 +43,12 @@ typedef struct scgi_cookie {
 } t_scgi_cookie;
 
 
-extern t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure);
+t_scgi_cookie * scgi_cookie_create(const char *name,
+    const char *value,
+    time_t expire,
+    const char *path,
+    const char *domain,
+    bool secure);
 
 
 #endif /* __SCGI_COOKIE_H__ */

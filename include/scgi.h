@@ -32,18 +32,12 @@
 #include <stdbool.h>
 #include <sys/queue.h>
 
+#include "scgi-defines.h"
 #include "scgi-helpers.h"
 #include "scgi-header.h"
 #include "scgi-header-ct.h"
 #include "scgi-cookie.h"
 #include "scgi-header-cookie.h"
-
-
-#define SCGI_EOL "\r\n"
-#define SCGI_EOLSZ ((size_t)2)
-
-#define SCGI_EOR SCGI_EOL SCGI_EOL
-#define SCGI_EORSZ (SCGI_EOLSZ + SCGI_EOLSZ)
 
 
 /* Types */
@@ -71,23 +65,38 @@ typedef struct scgi {
 
 /* Methods */
 
-extern t_scgi * scgi_init(void);
+t_scgi * scgi_init(void);
 
-extern void scgi_free(t_scgi *ctx);
+void scgi_free(t_scgi *ctx);
 
-extern char * scgi_envs_lookup(const char *key, t_scgi *ctx);
+char * scgi_envs_lookup(const char *key, t_scgi *ctx);
 
-extern void scgi_set_content_type(t_scgi *ctx, const char *content_type);
+void scgi_set_content_type(t_scgi *ctx, const char *content_type);
 
-extern void scgi_headers_print(t_scgi *ctx);
+void scgi_headers_print(t_scgi *ctx);
 
-extern void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure);
+void scgi_set_cookie(t_scgi *ctx, 
+    const char *name,
+    const char *value,
+    time_t expire,
+    const char *path,
+    const char *domain,
+    bool secure);
 
-extern void scgi_set_cookie_permanent(t_scgi *ctx, const char *name, const char *value, const char *path, const char *domain, bool secure);
+void scgi_set_cookie_permanent(t_scgi *ctx,
+    const char *name,
+    const char *value,
+    const char *path,
+    const char *domain,
+    bool secure);
 
-extern void scgi_clear_cookie(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure);
+void scgi_clear_cookie(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
 
-extern void scgi_printf(t_scgi *ctx, const char *fmt, ...);
+void scgi_printf(t_scgi *ctx, const char *fmt, ...);
 
 #define scgi_envs_print(c) \
     do { \

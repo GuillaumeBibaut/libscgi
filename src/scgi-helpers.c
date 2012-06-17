@@ -30,9 +30,13 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "scgi-helpers.h"
+
+
 #define unhex(c) (((c) >= '0' && (c) <= '9') ? (c) - '0' : \
         ((c) >= 'a' && (c) <= 'f') ? (c) - 'a' + 10 : \
         ((c) >= 'A' && (c) <= 'F') ? (c) - 'A' + 10 : 0)
+
 
 char *scgi_urlencode(const char *dec, size_t decsz) {
     const bool _encc[256] = {
@@ -80,6 +84,7 @@ char *scgi_urlencode(const char *dec, size_t decsz) {
     return(start);
 }
 
+
 size_t scgi_urldecode(char *enc) {
     char *dec, *p;
 
@@ -101,4 +106,3 @@ size_t scgi_urldecode(char *enc) {
     *dec = '\0';
     return((size_t)(dec - enc));
 }
-

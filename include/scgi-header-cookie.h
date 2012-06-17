@@ -28,16 +28,21 @@
 #ifndef __SCGI_HEADER_COOKIE_H__
 #define __SCGI_HEADER_COOKIE_H__
 
-#include "scgi.h"
+#include "scgi-header.h"
 
 #define SCGI_SET_COOKIE "Set-cookie"
 #define SCGI_COOKIE_PERMANENT ((time_t)10 * 365 * 24 * 60 * 60)
 
-extern t_scgi_header * scgi_header_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure);
+t_scgi_header * scgi_header_cookie_create(const char *name,
+    const char *value,
+    time_t expire,
+    const char *path,
+    const char *domain,
+    bool secure);
 
-extern void scgi_header_cookie_free(t_scgi_header *header);
+void scgi_header_cookie_free(t_scgi_header *header);
 
-extern t_scgi_header * scgi_header_cookies_lookup(const char *name, struct scgi_headers_head *headers);
+t_scgi_header * scgi_header_cookies_lookup(const char *name, struct scgi_headers_head *headers);
 
 
 #endif /* __SCGI_HEADER_COOKIE_H__ */

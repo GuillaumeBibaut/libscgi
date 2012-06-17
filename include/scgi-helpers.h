@@ -29,9 +29,9 @@
 #define __SCGI_HELPERS_H__
 
 
-extern char *scgi_urlencode(const char *dec, size_t decsz);
+char *scgi_urlencode(const char *dec, size_t decsz);
 
-extern size_t scgi_urldecode(char *enc); 
+size_t scgi_urldecode(char *enc); 
 
 
 #endif /* __SCGI_HELPERS_H__ */

@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 #include <stdbool.h>
+#include <sys/queue.h>
 
 /* Type */
 
@@ -64,11 +65,11 @@ TAILQ_HEAD(scgi_headers_head, scgi_header_entry);
 
 /* Methods */
 
-extern t_scgi_header * scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
+t_scgi_header * scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *));
 
-extern void scgi_header_fprint(FILE *stream, t_scgi_header *header);
+void scgi_header_fprint(FILE *stream, t_scgi_header *header);
 #define scgi_header_print(h) scgi_header_fprint(stdout, h)
 
-extern t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *headers);
+t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *headers);
 
 #endif /* __SCGI_HEADER_H__ */
