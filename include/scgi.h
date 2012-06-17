@@ -101,9 +101,11 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...);
 #define scgi_envs_print(c) \
     do { \
         struct scgi_hash *ev; \
+        scgi_printf((c), "<pre>\n"); \
         TAILQ_FOREACH(ev, &((c))->envs, entry) { \
-            scgi_printf((c), "envs[%s] = \"%s\"<br />\n", ev->key, ev->value); \
+            scgi_printf((c), "envs[%s] = \"%s\"\n", ev->key, ev->value); \
         } \
+        scgi_printf((c), "</pre>\n"); \
     } while(0)
 
 

@@ -40,8 +40,6 @@ t_scgi_header * scgi_header_cookie_create(const char *name,
     const char *domain,
     bool secure);
 
-void scgi_header_cookie_free(t_scgi_header *header);
-
 t_scgi_header * scgi_header_cookies_lookup(const char *name, struct scgi_headers_head *headers);
 
 

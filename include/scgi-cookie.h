@@ -50,5 +50,8 @@ t_scgi_cookie * scgi_cookie_create(const char *name,
     const char *domain,
     bool secure);
 
+void scgi_cookie_free(t_scgi_cookie *cookie);
+
+char * scgi_cookie_tostring(t_scgi_cookie *cookie);
 
 #endif /* __SCGI_COOKIE_H__ */

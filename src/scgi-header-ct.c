@@ -43,14 +43,6 @@ t_scgi_header *scgi_header_ct_create(const char *content_type) {
 }
 
 
-void scgi_header_ct_free(t_scgi_header *header) {
-
-    header->free(header->data);
-    free(header);
-    header = NULL;
-}
-
-
 static char * _scgi_header_ct_tostring(t_scgi_header *header) {
 
     if (header->data) {

@@ -25,12 +25,15 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
+#include "scgi-helpers.h"
 #include "scgi-cookie.h"
+
 
 t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
     t_scgi_cookie *cookie;
@@ -59,3 +62,101 @@ t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t e
     return(cookie);
 }
 
+
+void scgi_cookie_free(t_scgi_cookie *cookie) {
+
+    if (cookie->name) {
+        free(cookie->name);
+    }
+    if (cookie->value) {
+        free(cookie->value);
+    }
+    if (cookie->path) {
+        free(cookie->path);
+    }
+    if (cookie->domain) {
+        free(cookie->domain);
+    }
+    free(cookie);
+}
+
+
+char * scgi_cookie_tostring(t_scgi_cookie *cookie) {
+    char *encname, *encvalue, *buffer;
+    char gmtstr[100];
+    time_t t;
+    struct tm *tps;
+    
+    if (cookie == NULL) {
+        return(NULL);
+    }
+
+    buffer = (char *)malloc(SCGI_COOKIE_SZ);
+    if (buffer == NULL) {
+        return(NULL);
+    }
+
+    encname = scgi_urlencode(cookie->name, strlen(cookie->name));
+    if (cookie->value == NULL) {
+        encvalue = strdup("");
+    } else {
+        encvalue = scgi_urlencode(cookie->value, strlen(cookie->value));
+    }
+    snprintf(buffer, SCGI_COOKIE_SZ, "%s=%s", encname, encvalue);
+    free(encname);
+    free(encvalue);
+
+    if (cookie->domain != NULL) {
+        if (strchr(cookie->domain, '/') != NULL || strchr(cookie->domain, '.') == NULL) {
+            free(buffer);
+            return(NULL);
+        }
+        if (strlen(buffer) > SCGI_COOKIE_SZ) {
+            free(buffer);
+            return(NULL);
+        }
+
+        strcat(buffer, "; domain=");
+        strcat(buffer, cookie->domain);
+    }
+
+    if (cookie->path != NULL) {
+        if (cookie->path[0] != '/') {
+            free(buffer);
+            return(NULL);
+        }
+        if (strlen(buffer) > SCGI_COOKIE_SZ) {
+            free(buffer);
+            return(NULL);
+        }
+
+        strcat(buffer, "; path=");
+        strcat(buffer, cookie->path);
+    }
+
+    if (cookie->expire > 0) {
+        t = time(NULL);
+        t += cookie->expire;
+        tps = gmtime(&t);
+        strftime(gmtstr, sizeof(gmtstr), "%a, %d-%b-%Y %H:%M:%S GMT", tps);
+
+        if (strlen(buffer) > (SCGI_COOKIE_SZ - sizeof(gmtstr))) {
+            free(buffer);
+            return(NULL);
+        }
+
+        strcat(buffer, "; expires=");
+        strcat(buffer, gmtstr);
+    }
+
+    if (cookie->secure) {
+        if (strlen(buffer) > SCGI_COOKIE_SZ) {
+            free(buffer);
+            return(NULL);
+        }
+
+        strcat(buffer, "; secure");
+    }
+
+    return(buffer);
+}
