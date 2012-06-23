@@ -53,18 +53,20 @@ t_scgi *scgi_init(void) {
     TAILQ_INIT(&(l_cgi->envs));
 
     for (ep = environ; *ep; ep++) {
-        env = *ep;
+        env = strdup(*ep);
         enve = (struct scgi_hash *)malloc(sizeof(struct scgi_hash));
         if (enve == NULL) {
             continue;
         }
 
-        enve->key = env;
+        memset(enve, 0, sizeof(struct scgi_hash));
         if ((eq = strchr(env, '=')) != NULL) {
             *eq = '\0'; eq++;
-            enve->value = eq;
+            enve->key = strdup(env);
+            enve->value = strdup(eq);
+            TAILQ_INSERT_TAIL(&(l_cgi->envs), enve, entry);
         }
-        TAILQ_INSERT_TAIL(&(l_cgi->envs), enve, entry);
+        free(env);
     }
 
     scgi_set_content_type(l_cgi, SCGI_TEXT_HTML);
@@ -93,6 +95,12 @@ void scgi_free(t_scgi *ctx) {
     ev = TAILQ_FIRST(&(ctx->envs));
     while (ev != NULL) {
         evn = TAILQ_NEXT(ev, entry);
+        if (ev->key) {
+            free(ev->key);
+        }
+        if (ev->value) {
+            free(ev->value);
+        }
         free(ev);
         ev = evn;
     }
