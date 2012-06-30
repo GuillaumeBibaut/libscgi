@@ -6,8 +6,50 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		E9D0341A159F9A0600BF739C /* scgi-cookie.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D033FB159F9A0600BF739C /* scgi-cookie.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0341B159F9A0600BF739C /* scgi-defines.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D033FC159F9A0600BF739C /* scgi-defines.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0341C159F9A0600BF739C /* scgi-header-cookie.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D033FD159F9A0600BF739C /* scgi-header-cookie.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0341D159F9A0600BF739C /* scgi-header-ct.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D033FE159F9A0600BF739C /* scgi-header-ct.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0341E159F9A0600BF739C /* scgi-header.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D033FF159F9A0600BF739C /* scgi-header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0341F159F9A0600BF739C /* scgi-helpers.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D03400159F9A0600BF739C /* scgi-helpers.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D03420159F9A0600BF739C /* scgi.h in Headers */ = {isa = PBXBuildFile; fileRef = E9D03401159F9A0600BF739C /* scgi.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E9D0342B159F9A0600BF739C /* scgi-cookie.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03413159F9A0600BF739C /* scgi-cookie.c */; };
+		E9D0342C159F9A0600BF739C /* scgi-header-cookie.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03414159F9A0600BF739C /* scgi-header-cookie.c */; };
+		E9D0342D159F9A0600BF739C /* scgi-header-ct.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03415159F9A0600BF739C /* scgi-header-ct.c */; };
+		E9D0342E159F9A0600BF739C /* scgi-header.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03416159F9A0600BF739C /* scgi-header.c */; };
+		E9D0342F159F9A0600BF739C /* scgi-helpers.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03417159F9A0600BF739C /* scgi-helpers.c */; };
+		E9D03430159F9A0600BF739C /* scgi.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03418159F9A0600BF739C /* scgi.c */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		E9D033F3159F99EA00BF739C /* libscgi.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libscgi.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9D033FB159F9A0600BF739C /* scgi-cookie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-cookie.h"; sourceTree = "<group>"; };
+		E9D033FC159F9A0600BF739C /* scgi-defines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-defines.h"; sourceTree = "<group>"; };
+		E9D033FD159F9A0600BF739C /* scgi-header-cookie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-header-cookie.h"; sourceTree = "<group>"; };
+		E9D033FE159F9A0600BF739C /* scgi-header-ct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-header-ct.h"; sourceTree = "<group>"; };
+		E9D033FF159F9A0600BF739C /* scgi-header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-header.h"; sourceTree = "<group>"; };
+		E9D03400159F9A0600BF739C /* scgi-helpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-helpers.h"; sourceTree = "<group>"; };
+		E9D03401159F9A0600BF739C /* scgi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scgi.h; sourceTree = "<group>"; };
+		E9D03402159F9A0600BF739C /* LICENCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE; sourceTree = "<group>"; };
+		E9D03403159F9A0600BF739C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9D03404159F9A0600BF739C /* Makefile.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = Makefile.inc; sourceTree = "<group>"; };
+		E9D03405159F9A0600BF739C /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		E9D03408159F9A0600BF739C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9D03409159F9A0600BF739C /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
+		E9D0340B159F9A0600BF739C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9D0340C159F9A0600BF739C /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
+		E9D0340E159F9A0600BF739C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9D0340F159F9A0600BF739C /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
+		E9D03411159F9A0600BF739C /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9D03412159F9A0600BF739C /* Makefile.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; path = Makefile.inc; sourceTree = "<group>"; };
+		E9D03413159F9A0600BF739C /* scgi-cookie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-cookie.c"; sourceTree = "<group>"; };
+		E9D03414159F9A0600BF739C /* scgi-header-cookie.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-header-cookie.c"; sourceTree = "<group>"; };
+		E9D03415159F9A0600BF739C /* scgi-header-ct.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-header-ct.c"; sourceTree = "<group>"; };
+		E9D03416159F9A0600BF739C /* scgi-header.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-header.c"; sourceTree = "<group>"; };
+		E9D03417159F9A0600BF739C /* scgi-helpers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-helpers.c"; sourceTree = "<group>"; };
+		E9D03418159F9A0600BF739C /* scgi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scgi.c; sourceTree = "<group>"; };
+		E9D03419159F9A0600BF739C /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -24,6 +66,7 @@
 		E9D033E8159F99EA00BF739C = {
 			isa = PBXGroup;
 			children = (
+				E9D03431159F9A2400BF739C /* Sources */,
 				E9D033F4159F99EA00BF739C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -36,6 +79,87 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		E9D033FA159F9A0600BF739C /* include */ = {
+			isa = PBXGroup;
+			children = (
+				E9D033FB159F9A0600BF739C /* scgi-cookie.h */,
+				E9D033FC159F9A0600BF739C /* scgi-defines.h */,
+				E9D033FD159F9A0600BF739C /* scgi-header-cookie.h */,
+				E9D033FE159F9A0600BF739C /* scgi-header-ct.h */,
+				E9D033FF159F9A0600BF739C /* scgi-header.h */,
+				E9D03400159F9A0600BF739C /* scgi-helpers.h */,
+				E9D03401159F9A0600BF739C /* scgi.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		E9D03406159F9A0600BF739C /* samples */ = {
+			isa = PBXGroup;
+			children = (
+				E9D03407159F9A0600BF739C /* encode-decode */,
+				E9D0340A159F9A0600BF739C /* set-cookie */,
+				E9D0340D159F9A0600BF739C /* simple */,
+			);
+			path = samples;
+			sourceTree = "<group>";
+		};
+		E9D03407159F9A0600BF739C /* encode-decode */ = {
+			isa = PBXGroup;
+			children = (
+				E9D03408159F9A0600BF739C /* Makefile */,
+				E9D03409159F9A0600BF739C /* program.c */,
+			);
+			path = "encode-decode";
+			sourceTree = "<group>";
+		};
+		E9D0340A159F9A0600BF739C /* set-cookie */ = {
+			isa = PBXGroup;
+			children = (
+				E9D0340B159F9A0600BF739C /* Makefile */,
+				E9D0340C159F9A0600BF739C /* program.c */,
+			);
+			path = "set-cookie";
+			sourceTree = "<group>";
+		};
+		E9D0340D159F9A0600BF739C /* simple */ = {
+			isa = PBXGroup;
+			children = (
+				E9D0340E159F9A0600BF739C /* Makefile */,
+				E9D0340F159F9A0600BF739C /* program.c */,
+			);
+			path = simple;
+			sourceTree = "<group>";
+		};
+		E9D03410159F9A0600BF739C /* src */ = {
+			isa = PBXGroup;
+			children = (
+				E9D03411159F9A0600BF739C /* Makefile */,
+				E9D03412159F9A0600BF739C /* Makefile.inc */,
+				E9D03413159F9A0600BF739C /* scgi-cookie.c */,
+				E9D03414159F9A0600BF739C /* scgi-header-cookie.c */,
+				E9D03415159F9A0600BF739C /* scgi-header-ct.c */,
+				E9D03416159F9A0600BF739C /* scgi-header.c */,
+				E9D03417159F9A0600BF739C /* scgi-helpers.c */,
+				E9D03418159F9A0600BF739C /* scgi.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		E9D03431159F9A2400BF739C /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				E9D033FA159F9A0600BF739C /* include */,
+				E9D03402159F9A0600BF739C /* LICENCE */,
+				E9D03403159F9A0600BF739C /* Makefile */,
+				E9D03404159F9A0600BF739C /* Makefile.inc */,
+				E9D03405159F9A0600BF739C /* README */,
+				E9D03406159F9A0600BF739C /* samples */,
+				E9D03410159F9A0600BF739C /* src */,
+				E9D03419159F9A0600BF739C /* TODO */,
+			);
+			name = Sources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -43,6 +167,13 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D0341A159F9A0600BF739C /* scgi-cookie.h in Headers */,
+				E9D0341B159F9A0600BF739C /* scgi-defines.h in Headers */,
+				E9D0341C159F9A0600BF739C /* scgi-header-cookie.h in Headers */,
+				E9D0341D159F9A0600BF739C /* scgi-header-ct.h in Headers */,
+				E9D0341E159F9A0600BF739C /* scgi-header.h in Headers */,
+				E9D0341F159F9A0600BF739C /* scgi-helpers.h in Headers */,
+				E9D03420159F9A0600BF739C /* scgi.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,6 +227,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9D0342B159F9A0600BF739C /* scgi-cookie.c in Sources */,
+				E9D0342C159F9A0600BF739C /* scgi-header-cookie.c in Sources */,
+				E9D0342D159F9A0600BF739C /* scgi-header-ct.c in Sources */,
+				E9D0342E159F9A0600BF739C /* scgi-header.c in Sources */,
+				E9D0342F159F9A0600BF739C /* scgi-helpers.c in Sources */,
+				E9D03430159F9A0600BF739C /* scgi.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -153,6 +290,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -161,6 +299,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
