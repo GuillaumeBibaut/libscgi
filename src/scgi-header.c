@@ -78,3 +78,4 @@ t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *
     }
     return((t_scgi_header *)NULL);
 }
+
