@@ -58,4 +58,3 @@ static void _scgi_header_ct_free_data(void *data) {
         data = NULL;
     }
 }
-
