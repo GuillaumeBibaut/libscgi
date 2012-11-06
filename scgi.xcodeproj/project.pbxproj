@@ -203,7 +203,7 @@
 		E9D033EA159F99EA00BF739C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = E9D033ED159F99EA00BF739C /* Build configuration list for PBXProject "scgi" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -289,6 +289,7 @@
 		E9D033F8159F99EA00BF739C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -298,6 +299,7 @@
 		E9D033F9159F99EA00BF739C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
 				EXECUTABLE_PREFIX = lib;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -323,6 +325,7 @@
 				E9D033F9159F99EA00BF739C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
