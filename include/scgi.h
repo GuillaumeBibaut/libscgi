@@ -54,7 +54,7 @@ TAILQ_HEAD(scgi_dictionary_head, scgi_dictionary);
 typedef struct scgi {
 
     FILE *outstream;
-    bool writen;
+    bool writenHeaders;
 
     struct scgi_dictionary_head envs;
 

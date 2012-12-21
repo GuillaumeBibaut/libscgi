@@ -34,6 +34,7 @@
 
 #include "scgi.h"
 
+/* environment variables */
 extern char **environ;
 
 
@@ -71,7 +72,7 @@ t_scgi *scgi_init(void) {
 
     scgi_set_content_type(l_cgi, SCGI_TEXT_HTML);
     l_cgi->outstream = stdout;
-    l_cgi->writen = false;
+    l_cgi->writenHeaders = false;
 
     return(l_cgi);
 }
@@ -113,6 +114,9 @@ void scgi_free(t_scgi *ctx) {
 char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
     struct scgi_dictionary *ev;
     
+    if (key == NULL || *key == '\0') {
+        return((char *)NULL);
+    }
     if (TAILQ_EMPTY(&(ctx->envs))) {
         return((char *)NULL);
     }
@@ -128,12 +132,12 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
 void scgi_headers_print(t_scgi *ctx) {
     struct scgi_header_entry *he;
 
-    if (!ctx->writen) {
+    if (!ctx->writenHeaders) {
         TAILQ_FOREACH(he, &(ctx->headers), entry) {
             scgi_header_fprint(ctx->outstream, he->header);
         }
         fprintf(ctx->outstream, SCGI_EOL);
-        ctx->writen = true;
+        ctx->writenHeaders = true;
     }
 }
 
