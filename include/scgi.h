@@ -42,21 +42,21 @@
 
 /* Types */
 
-struct scgi_hash {
+struct scgi_dictionary {
     char *key;
     char *value;
 
-    TAILQ_ENTRY(scgi_hash) entry;
+    TAILQ_ENTRY(scgi_dictionary) entry;
 };
 
-TAILQ_HEAD(scgi_hash_head, scgi_hash);
+TAILQ_HEAD(scgi_dictionary_head, scgi_dictionary);
 
 typedef struct scgi {
 
     FILE *outstream;
     bool writen;
 
-    struct scgi_hash_head envs;
+    struct scgi_dictionary_head envs;
 
     struct scgi_headers_head headers;
 

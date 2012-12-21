@@ -39,7 +39,7 @@ extern char **environ;
 
 t_scgi *scgi_init(void) {
     t_scgi *l_cgi = NULL;
-    struct scgi_hash *enve;
+    struct scgi_dictionary *enve;
     char **ep, *env, *eq;
 
     l_cgi = (t_scgi *)malloc(sizeof(t_scgi));
@@ -54,12 +54,12 @@ t_scgi *scgi_init(void) {
 
     for (ep = environ; *ep; ep++) {
         env = strdup(*ep);
-        enve = (struct scgi_hash *)malloc(sizeof(struct scgi_hash));
+        enve = (struct scgi_dictionary *)malloc(sizeof(struct scgi_dictionary));
         if (enve == NULL) {
             continue;
         }
 
-        memset(enve, 0, sizeof(struct scgi_hash));
+        memset(enve, 0, sizeof(struct scgi_dictionary));
         if ((eq = strchr(env, '=')) != NULL) {
             *eq = '\0'; eq++;
             enve->key = strdup(env);
@@ -78,7 +78,7 @@ t_scgi *scgi_init(void) {
 
 
 void scgi_free(t_scgi *ctx) {
-    struct scgi_hash *ev, *evn;
+    struct scgi_dictionary *ev, *evn;
     struct scgi_header_entry *he, *hen;
 
     he = TAILQ_FIRST(&(ctx->headers));
@@ -111,7 +111,7 @@ void scgi_free(t_scgi *ctx) {
 
 
 char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
-    struct scgi_hash *ev;
+    struct scgi_dictionary *ev;
     
     if (TAILQ_EMPTY(&(ctx->envs))) {
         return((char *)NULL);
