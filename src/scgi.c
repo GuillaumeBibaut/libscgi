@@ -161,11 +161,13 @@ void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
 
     header = scgi_headers_lookup(SCGI_CONTENT_TYPE, &(ctx->headers));
     if (header) {
+        /* update */
         if (header->data) {
             header->free(header->data);
         }
         scgi_header_ct_set(header, strdup(content_type));
     } else {
+        /* create */
         header = scgi_header_ct_create(content_type);
         he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
         if (he) {
@@ -183,6 +185,7 @@ void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t ex
 
     header = scgi_header_cookies_lookup(name, &(ctx->headers));
     if (header) {
+        /* update : delete cookie + create cookie */
         if (header->data) {
             header->free(header->data);
         }
@@ -191,6 +194,7 @@ void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t ex
             header->data = cookie;
         }
     } else {
+        /* create cookie header */
         header = scgi_header_cookie_create(name, value, expire, path, domain, secure);
         if (header != NULL) {
             he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
