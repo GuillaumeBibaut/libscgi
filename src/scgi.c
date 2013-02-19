@@ -57,7 +57,9 @@ t_scgi *scgi_init(void) {
         env = strdup(*ep);
         enve = (struct scgi_dictionary *)malloc(sizeof(struct scgi_dictionary));
         if (enve == NULL) {
-            continue;
+            scgi_free(l_cgi);
+            free(env);
+            return((t_scgi *)NULL);
         }
 
         memset(enve, 0, sizeof(struct scgi_dictionary));
@@ -71,8 +73,8 @@ t_scgi *scgi_init(void) {
     }
 
     scgi_set_content_type(l_cgi, SCGI_TEXT_HTML);
-    l_cgi->outstream = stdout;
-    l_cgi->writenHeaders = false;
+    l_cgi->_outstream = stdout;
+    l_cgi->_writenHeaders = false;
 
     return(l_cgi);
 }
@@ -132,12 +134,12 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
 void scgi_headers_print(t_scgi *ctx) {
     struct scgi_header_entry *he;
 
-    if (!ctx->writenHeaders) {
+    if (!ctx->_writenHeaders) {
         TAILQ_FOREACH(he, &(ctx->headers), entry) {
-            scgi_header_fprint(ctx->outstream, he->header);
+            scgi_header_fprint(ctx->_outstream, he->header);
         }
-        fprintf(ctx->outstream, SCGI_EOL);
-        ctx->writenHeaders = true;
+        fprintf(ctx->_outstream, SCGI_EOL);
+        ctx->_writenHeaders = true;
     }
 }
 
@@ -148,7 +150,7 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     scgi_headers_print(ctx);
 
     va_start(ap, fmt);
-    (void)vfprintf(ctx->outstream, fmt, ap);
+    (void)vfprintf(ctx->_outstream, fmt, ap);
     va_end(ap);
 }
 
