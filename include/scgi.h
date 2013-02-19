@@ -98,6 +98,8 @@ void scgi_clear_cookie(t_scgi *ctx,
 
 void scgi_printf(t_scgi *ctx, const char *fmt, ...);
 
+void scgi_eor(t_scgi *ctx);
+
 #define scgi_envs_print(c) \
     do { \
         struct scgi_hash *ev; \

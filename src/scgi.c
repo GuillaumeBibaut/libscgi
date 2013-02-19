@@ -155,6 +155,13 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
 }
 
 
+void scgi_eor(t_scgi *ctx) {
+    
+    scgi_printf(ctx, SCGI_EOR);
+    exit(0);
+}
+
+
 void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
     t_scgi_header *header;
     struct scgi_header_entry *he;
