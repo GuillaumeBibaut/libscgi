@@ -20,6 +20,14 @@
 		E9D0342E159F9A0600BF739C /* scgi-header.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03416159F9A0600BF739C /* scgi-header.c */; };
 		E9D0342F159F9A0600BF739C /* scgi-helpers.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03417159F9A0600BF739C /* scgi-helpers.c */; };
 		E9D03430159F9A0600BF739C /* scgi.c in Sources */ = {isa = PBXBuildFile; fileRef = E9D03418159F9A0600BF739C /* scgi.c */; };
+		E9DCBA8A16D63788002AB402 /* scgi-header-location.h in Headers */ = {isa = PBXBuildFile; fileRef = E9DCBA8816D63788002AB402 /* scgi-header-location.h */; };
+		E9DCBA8B16D63788002AB402 /* scgi-header-status.h in Headers */ = {isa = PBXBuildFile; fileRef = E9DCBA8916D63788002AB402 /* scgi-header-status.h */; };
+		E9DCBA8E16D63793002AB402 /* scgi-header-location.c in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA8C16D63793002AB402 /* scgi-header-location.c */; };
+		E9DCBA8F16D63793002AB402 /* scgi-header-status.c in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA8D16D63793002AB402 /* scgi-header-status.c */; };
+		E9DCBA9616D637AA002AB402 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA9116D637AA002AB402 /* Makefile */; };
+		E9DCBA9716D637AA002AB402 /* program.c in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA9216D637AA002AB402 /* program.c */; };
+		E9DCBA9816D637AA002AB402 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA9416D637AA002AB402 /* Makefile */; };
+		E9DCBA9916D637AA002AB402 /* program.c in Sources */ = {isa = PBXBuildFile; fileRef = E9DCBA9516D637AA002AB402 /* program.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +58,14 @@
 		E9D03417159F9A0600BF739C /* scgi-helpers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-helpers.c"; sourceTree = "<group>"; };
 		E9D03418159F9A0600BF739C /* scgi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scgi.c; sourceTree = "<group>"; };
 		E9D03419159F9A0600BF739C /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		E9DCBA8816D63788002AB402 /* scgi-header-location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-header-location.h"; sourceTree = "<group>"; };
+		E9DCBA8916D63788002AB402 /* scgi-header-status.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "scgi-header-status.h"; sourceTree = "<group>"; };
+		E9DCBA8C16D63793002AB402 /* scgi-header-location.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-header-location.c"; sourceTree = "<group>"; };
+		E9DCBA8D16D63793002AB402 /* scgi-header-status.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "scgi-header-status.c"; sourceTree = "<group>"; };
+		E9DCBA9116D637AA002AB402 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9DCBA9216D637AA002AB402 /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
+		E9DCBA9416D637AA002AB402 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		E9DCBA9516D637AA002AB402 /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = program.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +98,8 @@
 		E9D033FA159F9A0600BF739C /* include */ = {
 			isa = PBXGroup;
 			children = (
+				E9DCBA8816D63788002AB402 /* scgi-header-location.h */,
+				E9DCBA8916D63788002AB402 /* scgi-header-status.h */,
 				E9D033FB159F9A0600BF739C /* scgi-cookie.h */,
 				E9D033FC159F9A0600BF739C /* scgi-defines.h */,
 				E9D033FD159F9A0600BF739C /* scgi-header-cookie.h */,
@@ -96,6 +114,8 @@
 		E9D03406159F9A0600BF739C /* samples */ = {
 			isa = PBXGroup;
 			children = (
+				E9DCBA9016D637AA002AB402 /* redirect */,
+				E9DCBA9316D637AA002AB402 /* redirectpermanent */,
 				E9D03407159F9A0600BF739C /* encode-decode */,
 				E9D0340A159F9A0600BF739C /* set-cookie */,
 				E9D0340D159F9A0600BF739C /* simple */,
@@ -133,6 +153,8 @@
 		E9D03410159F9A0600BF739C /* src */ = {
 			isa = PBXGroup;
 			children = (
+				E9DCBA8C16D63793002AB402 /* scgi-header-location.c */,
+				E9DCBA8D16D63793002AB402 /* scgi-header-status.c */,
 				E9D03411159F9A0600BF739C /* Makefile */,
 				E9D03412159F9A0600BF739C /* Makefile.inc */,
 				E9D03413159F9A0600BF739C /* scgi-cookie.c */,
@@ -160,6 +182,24 @@
 			name = Sources;
 			sourceTree = "<group>";
 		};
+		E9DCBA9016D637AA002AB402 /* redirect */ = {
+			isa = PBXGroup;
+			children = (
+				E9DCBA9116D637AA002AB402 /* Makefile */,
+				E9DCBA9216D637AA002AB402 /* program.c */,
+			);
+			path = redirect;
+			sourceTree = "<group>";
+		};
+		E9DCBA9316D637AA002AB402 /* redirectpermanent */ = {
+			isa = PBXGroup;
+			children = (
+				E9DCBA9416D637AA002AB402 /* Makefile */,
+				E9DCBA9516D637AA002AB402 /* program.c */,
+			);
+			path = redirectpermanent;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -174,6 +214,8 @@
 				E9D0341E159F9A0600BF739C /* scgi-header.h in Headers */,
 				E9D0341F159F9A0600BF739C /* scgi-helpers.h in Headers */,
 				E9D03420159F9A0600BF739C /* scgi.h in Headers */,
+				E9DCBA8A16D63788002AB402 /* scgi-header-location.h in Headers */,
+				E9DCBA8B16D63788002AB402 /* scgi-header-status.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +275,12 @@
 				E9D0342E159F9A0600BF739C /* scgi-header.c in Sources */,
 				E9D0342F159F9A0600BF739C /* scgi-helpers.c in Sources */,
 				E9D03430159F9A0600BF739C /* scgi.c in Sources */,
+				E9DCBA8E16D63793002AB402 /* scgi-header-location.c in Sources */,
+				E9DCBA8F16D63793002AB402 /* scgi-header-status.c in Sources */,
+				E9DCBA9616D637AA002AB402 /* Makefile in Sources */,
+				E9DCBA9716D637AA002AB402 /* program.c in Sources */,
+				E9DCBA9816D637AA002AB402 /* Makefile in Sources */,
+				E9DCBA9916D637AA002AB402 /* program.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
