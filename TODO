@@ -1,5 +1,4 @@
 * Headers :
-  * 'Location' + 'Status' : scgi_redirect(url, permanent)
-  * 'Pragma', for cache control
+  * 'Pragma' (HTTP/1.0) + 'Cache-Control' (HTTP/1.1) for cache control
   * 'Expires', also for cache
-
+  * TODO
