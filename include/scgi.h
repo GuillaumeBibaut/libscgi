@@ -38,6 +38,8 @@
 #include "scgi-header-ct.h"
 #include "scgi-cookie.h"
 #include "scgi-header-cookie.h"
+#include "scgi-header-status.h"
+#include "scgi-header-location.h"
 
 
 /* Types */
@@ -71,9 +73,28 @@ void scgi_free(t_scgi *ctx);
 
 char * scgi_envs_lookup(const char *key, t_scgi *ctx);
 
-void scgi_set_content_type(t_scgi *ctx, const char *content_type);
+#define scgi_envs_print(c) \
+    do { \
+        struct scgi_hash *ev; \
+        scgi_printf((c), "<pre>\n"); \
+        TAILQ_FOREACH(ev, &((c))->envs, entry) { \
+            scgi_printf((c), "envs[%s] = \"%s\"\n", ev->key, ev->value); \
+        } \
+        scgi_printf((c), "</pre>\n"); \
+    } while(0)
+
 
 void scgi_headers_print(t_scgi *ctx);
+
+void scgi_printf(t_scgi *ctx, const char *fmt, ...);
+
+void scgi_eor(t_scgi *ctx);
+
+/* Content-Type shortcut */
+
+void scgi_set_content_type(t_scgi *ctx, const char *content_type);
+
+/* Cookies shortcuts */
 
 void scgi_set_cookie(t_scgi *ctx, 
     const char *name,
@@ -96,19 +117,10 @@ void scgi_clear_cookie(t_scgi *ctx,
     const char *domain,
     bool secure);
 
-void scgi_printf(t_scgi *ctx, const char *fmt, ...);
+/* Status + Location shortcut */
 
-void scgi_eor(t_scgi *ctx);
+void scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end);
 
-#define scgi_envs_print(c) \
-    do { \
-        struct scgi_hash *ev; \
-        scgi_printf((c), "<pre>\n"); \
-        TAILQ_FOREACH(ev, &((c))->envs, entry) { \
-            scgi_printf((c), "envs[%s] = \"%s\"\n", ev->key, ev->value); \
-        } \
-        scgi_printf((c), "</pre>\n"); \
-    } while(0)
-
+void scgi_redirectpermanent(t_scgi *ctx, const char *absolute_url, bool end);
 
 #endif /* __SCGI_H__ */

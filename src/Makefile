@@ -8,6 +8,8 @@ SRCS+=		scgi-header.c
 SRCS+=		scgi-header-ct.c
 SRCS+=		scgi-cookie.c
 SRCS+=		scgi-header-cookie.c
+SRCS+=		scgi-header-status.c
+SRCS+=		scgi-header-location.c
 
 #SHLIB_MAJOR=	0.1.1
 

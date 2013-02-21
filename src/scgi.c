@@ -37,6 +37,10 @@
 /* environment variables */
 extern char **environ;
 
+static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, const char *code);
+
+static void scgi_header_clear(t_scgi *ctx);
+
 
 t_scgi *scgi_init(void) {
     t_scgi *l_cgi = NULL;
@@ -82,18 +86,8 @@ t_scgi *scgi_init(void) {
 
 void scgi_free(t_scgi *ctx) {
     struct scgi_dictionary *ev, *evn;
-    struct scgi_header_entry *he, *hen;
 
-    he = TAILQ_FIRST(&(ctx->headers));
-    while (he != NULL) {
-        hen = TAILQ_NEXT(he, entry);
-        if (he->header->data) {
-            he->header->free(he->header->data);
-        }
-        free(he);
-        he = hen;
-    }
-    TAILQ_INIT(&(ctx->headers));
+    scgi_header_clear(ctx);
 
     ev = TAILQ_FIRST(&(ctx->envs));
     while (ev != NULL) {
@@ -224,3 +218,75 @@ void scgi_clear_cookie(t_scgi *ctx, const char *name, const char *path, const ch
 
     scgi_set_cookie(ctx, name, NULL, -1, path, domain, secure);
 }
+
+
+void scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end) {
+
+    _scgi_redirect(ctx, absolute_url, end, SCGI_STATUS_CODE_302);
+}
+
+
+void scgi_redirectpermanent(t_scgi *ctx, const char *absolute_url, bool end) {
+
+    _scgi_redirect(ctx, absolute_url, end, SCGI_STATUS_CODE_301);
+}
+
+
+static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, const char *code) {
+    t_scgi_header *header;
+    struct scgi_header_entry *he;
+    char *url, *ptr;
+
+    if (absolute_url == NULL || *absolute_url == '\0') {
+        return;
+    }
+
+    url = strdup(absolute_url);
+    if ((ptr = strrchr(url, '\n')) != NULL) {
+        *ptr =  '\0';
+    }
+
+    scgi_header_clear(ctx);
+
+    /* status */
+    header = scgi_header_status_create(code);
+    he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+    if (he) {
+        he->header = header;
+        TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+    }
+
+    /* location */
+    header = scgi_header_location_create(url);
+    he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+    if (he) {
+        he->header = header;
+        TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+    }
+
+    /* some browsers that can not handle location header */
+    scgi_printf(ctx, "<html><head><title>Object moved</title></head><body>");
+    scgi_printf(ctx, "<h2>Object moved to <a href=\"%s\">here</a></h2>", url);
+    scgi_printf(ctx, "</body><html>");
+
+    if (end) {
+        scgi_eor(ctx);
+    }
+}
+
+
+static void scgi_header_clear(t_scgi *ctx) {
+    struct scgi_header_entry *he, *hen;
+
+    he = TAILQ_FIRST(&(ctx->headers));
+    while (he != NULL) {
+        hen = TAILQ_NEXT(he, entry);
+        if (he->header->data) {
+            he->header->free(he->header->data);
+        }
+        free(he);
+        he = hen;
+    }
+    TAILQ_INIT(&(ctx->headers));
+}
+
