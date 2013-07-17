@@ -31,6 +31,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/queue.h>
+#include <errno.h>
 
 #include "scgi.h"
 
@@ -47,18 +48,21 @@ t_scgi *scgi_init(void) {
     struct scgi_dictionary *enve;
     char **ep, *env, *eq;
 
-    l_cgi = (t_scgi *)malloc(sizeof(t_scgi));
+    /* alloc and make everything zero'd */
+    l_cgi = calloc(1, sizeof(t_scgi));
     if (l_cgi == NULL) {
         return((t_scgi *)NULL);
     }
-
-    memset(l_cgi, 0, sizeof(t_scgi));
 
     TAILQ_INIT(&(l_cgi->headers));
     TAILQ_INIT(&(l_cgi->envs));
 
     for (ep = environ; *ep; ep++) {
         env = strdup(*ep);
+        if (env == NULL) {
+            scgi_free(l_cgi);
+            return((t_scgi *)NULL);
+        }
         enve = (struct scgi_dictionary *)malloc(sizeof(struct scgi_dictionary));
         if (enve == NULL) {
             scgi_free(l_cgi);
@@ -78,7 +82,6 @@ t_scgi *scgi_init(void) {
 
     scgi_set_content_type(l_cgi, SCGI_TEXT_HTML);
     l_cgi->_outstream = stdout;
-    l_cgi->_writenHeaders = false;
 
     return(l_cgi);
 }
@@ -102,6 +105,10 @@ void scgi_free(t_scgi *ctx) {
         ev = evn;
     }
     TAILQ_INIT(&(ctx->envs));
+
+    if (ctx->buffer.buffer != NULL) {
+        free(ctx->buffer.buffer);
+    }
 
     free(ctx);
 }
@@ -140,18 +147,86 @@ void scgi_headers_print(t_scgi *ctx) {
 
 void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     va_list ap;
+    char *str;
+    bool flush;
 
-    scgi_headers_print(ctx);
+    flush = false;
+    if (ctx->buffered && !ctx->forceflush) {
+        va_start(ap, fmt);
+        if (vasprintf(&str, fmt, ap) == -1) {
+#if defined(DEBUG)
+            fprintf(stderr, "%s: %s, at line %d\n", __func__, strerror(errno), __LINE__);
+#endif
+            va_end(ap);
+            if (ctx->exit) {
+                ctx->exit(1);
+            }
+            scgi_free(ctx);
+            exit(1);
+        }
+        va_end(ap);
+        if (scgi_buffer_write(&(ctx->buffer), str) != 0) {
+            free(str);
+            if (ctx->exit) {
+                ctx->exit(2);
+            }
+            scgi_free(ctx);
+            exit(2);
+        }
+        free(str);
+    } else {
+        scgi_headers_print(ctx);
 
-    va_start(ap, fmt);
-    (void)vfprintf(ctx->_outstream, fmt, ap);
-    va_end(ap);
+        if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
+            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
+            flush = true;
+        }
+
+        va_start(ap, fmt);
+        (void)vfprintf(ctx->_outstream, fmt, ap);
+        va_end(ap);
+        if (flush) {
+            fflush(ctx->_outstream);
+        }
+    }
+}
+
+
+void scgi_puts(t_scgi *ctx, const char *str) {
+    bool flush;
+
+    flush = false;
+    if (ctx->buffered && !ctx->forceflush) {
+        if (scgi_buffer_write(&(ctx->buffer), str) != 0) {
+            if (ctx->exit) {
+                ctx->exit(1);
+            }
+            scgi_free(ctx);
+            exit(1);
+        }
+    } else {
+        scgi_headers_print(ctx);
+
+        if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
+            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
+            flush = true;
+        }
+
+        fputs(str, ctx->_outstream);
+        if (flush) {
+            fflush(ctx->_outstream);
+        }
+    }
 }
 
 
 void scgi_eor(t_scgi *ctx) {
     
+    if (ctx->buffered && !ctx->buffer.flushed && ctx->buffer.length != 0) {
+        ctx->forceflush = true;
+    }
     scgi_printf(ctx, SCGI_EOR);
+    scgi_free(ctx);
     exit(0);
 }
 
