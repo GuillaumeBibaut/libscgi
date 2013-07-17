@@ -13,7 +13,7 @@ int main(void) {
 
     scgi_envs_print(ctx);
 
-    scgi_free(ctx);
+    scgi_eor(ctx);
 
     return(0);
 }

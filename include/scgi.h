@@ -41,6 +41,7 @@
 #include "scgi-header-status.h"
 #include "scgi-header-location.h"
 
+#include "scgi-buffer.h"
 
 /* Types */
 
@@ -53,6 +54,8 @@ struct scgi_dictionary {
 
 TAILQ_HEAD(scgi_dictionary_head, scgi_dictionary);
 
+typedef void (*cgiexitfunc)(int err);
+
 typedef struct scgi {
 
     FILE *_outstream;
@@ -61,6 +64,12 @@ typedef struct scgi {
     struct scgi_dictionary_head envs;
 
     struct scgi_headers_head headers;
+
+    bool buffered;
+    bool forceflush;
+    t_scgi_buffer buffer;
+
+    cgiexitfunc exit;
 
 } t_scgi;
 
@@ -75,7 +84,7 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx);
 
 #define scgi_envs_print(c) \
     do { \
-        struct scgi_hash *ev; \
+        struct scgi_dictionary *ev; \
         scgi_printf((c), "<pre>\n"); \
         TAILQ_FOREACH(ev, &((c))->envs, entry) { \
             scgi_printf((c), "envs[%s] = \"%s\"\n", ev->key, ev->value); \
@@ -87,6 +96,8 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx);
 void scgi_headers_print(t_scgi *ctx);
 
 void scgi_printf(t_scgi *ctx, const char *fmt, ...);
+
+void scgi_puts(t_scgi *ctx, const char *str);
 
 void scgi_eor(t_scgi *ctx);
 

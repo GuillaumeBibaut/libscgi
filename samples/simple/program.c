@@ -14,7 +14,7 @@ int main(void) {
     scgi_printf(ctx, "envs[REMOTE_PORT] = \"%s\"\n", scgi_envs_lookup("REMOTE_PORT", ctx));
     scgi_printf(ctx, "envs[QUERY_STRING] = \"%s\"\n", scgi_envs_lookup("QUERY_STRING", ctx));
 
-    scgi_free(ctx);
+    scgi_eor(ctx);
 
     return(0);
 }
