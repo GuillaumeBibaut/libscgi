@@ -50,7 +50,7 @@ int scgi_buffer_write(t_scgi_buffer *buffer, const char *str) {
 /*
  *
  */
-void scgi_buffer_flush(t_scgi_buffer *buffer, FILE *outstream, bool chunked) {
+void scgi_buffer_flush(t_scgi_buffer *buffer, FILE *outstream) {
 
     if (!buffer->flushed && buffer->length != 0) {
         fputs(buffer->buffer, outstream);

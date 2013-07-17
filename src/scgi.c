@@ -178,7 +178,7 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
         scgi_headers_print(ctx);
 
         if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
-            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream, false);
+            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
             flush = true;
         }
 
@@ -208,7 +208,7 @@ void scgi_puts(t_scgi *ctx, const char *str) {
         scgi_headers_print(ctx);
 
         if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
-            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream, false);
+            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
             flush = true;
         }
 

@@ -16,6 +16,6 @@ struct scgi_buffer {
 };
 
 int scgi_buffer_write(t_scgi_buffer *buffer, const char *str);
-void scgi_buffer_flush(t_scgi_buffer *buffer, FILE *outstream, bool chunked);
+void scgi_buffer_flush(t_scgi_buffer *buffer, FILE *outstream);
 
 #endif /* __SCGI_BUFFER_H__ */
