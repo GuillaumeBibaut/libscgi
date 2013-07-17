@@ -13,7 +13,13 @@
 int scgi_buffer_write(t_scgi_buffer *buffer, const char *str) {
     size_t length;
     size_t capacity;
-
+    
+    if (buffer == NULL) {
+        return(-1);
+    }
+    if (str == NULL || *str == '\0') {
+        return(0);
+    }
     if (buffer->flushed && buffer->length != 0 && buffer->buffer != NULL) {
         free(buffer->buffer);
         buffer->buffer = NULL;
