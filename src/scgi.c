@@ -63,16 +63,14 @@ t_scgi *scgi_init(void) {
             scgi_free(l_cgi);
             return((t_scgi *)NULL);
         }
-        enve = (struct scgi_dictionary *)malloc(sizeof(struct scgi_dictionary));
-        if (enve == NULL) {
-            scgi_free(l_cgi);
-            free(env);
-            return((t_scgi *)NULL);
-        }
-
-        memset(enve, 0, sizeof(struct scgi_dictionary));
         if ((eq = strchr(env, '=')) != NULL) {
             *eq = '\0'; eq++;
+            enve = calloc(1, sizeof(struct scgi_dictionary));
+            if (enve == NULL) {
+                scgi_free(l_cgi);
+                free(env);
+                return((t_scgi *)NULL);
+            }
             enve->key = strdup(env);
             enve->value = strdup(eq);
             TAILQ_INSERT_TAIL(&(l_cgi->envs), enve, entry);
@@ -241,11 +239,11 @@ void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
         if (header->data) {
             header->free(header->data);
         }
-        scgi_header_ct_set(header, strdup(content_type));
+        scgi_header_ct_set(header, content_type);
     } else {
         /* create */
         header = scgi_header_ct_create(content_type);
-        he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+        he = calloc(1, sizeof(struct scgi_header_entry));
         if (he) {
             he->header = header;
             TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
@@ -273,7 +271,7 @@ void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t ex
         /* create cookie header */
         header = scgi_header_cookie_create(name, value, expire, path, domain, secure);
         if (header != NULL) {
-            he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+            he = calloc(1, sizeof(struct scgi_header_entry));
             if (he) {
                 he->header = header;
                 TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
@@ -325,7 +323,7 @@ static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, cons
 
     /* status */
     header = scgi_header_status_create(code);
-    he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+    he = calloc(1, sizeof(struct scgi_header_entry));
     if (he) {
         he->header = header;
         TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
@@ -333,7 +331,7 @@ static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, cons
 
     /* location */
     header = scgi_header_location_create(url);
-    he = (struct scgi_header_entry *)malloc(sizeof(struct scgi_header_entry));
+    he = calloc(1, sizeof(struct scgi_header_entry));
     if (he) {
         he->header = header;
         TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
