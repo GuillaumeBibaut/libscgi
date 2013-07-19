@@ -29,7 +29,7 @@ int scgi_buffer_write(t_scgi_buffer *buffer, const char *str) {
     }
     length = strlen(str);
     capacity = ((((buffer->length + length) / SCGI_BUFFER_CAPACITYSZ) + 1) * SCGI_BUFFER_CAPACITYSZ) + 1;
-    if (capacity >= buffer->capacity) {
+    if (buffer->buffer == NULL || capacity >= buffer->capacity) {
         buffer->buffer = realloc(buffer->buffer, sizeof(char) * capacity);
         if (buffer->buffer == NULL) {
 #if defined(DEBUG)
