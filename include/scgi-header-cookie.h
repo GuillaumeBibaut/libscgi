@@ -31,7 +31,7 @@
 #include "scgi-header.h"
 
 #define SCGI_SET_COOKIE "Set-cookie"
-#define SCGI_COOKIE_PERMANENT ((time_t)10 * 365 * 24 * 60 * 60)
+#define SCGI_COOKIE_PERMANENT ((time_t) (365 + 28) * 24 * 60 * 60)
 
 t_scgi_header * scgi_header_cookie_create(const char *name,
     const char *value,
