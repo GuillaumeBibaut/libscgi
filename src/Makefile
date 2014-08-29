@@ -12,6 +12,5 @@ SRCS+=		scgi-header-status.c
 SRCS+=		scgi-header-location.c
 SRCS+=		scgi-buffer.c
 
-#SHLIB_MAJOR=	0.1.1
 
 .include <bsd.lib.mk>

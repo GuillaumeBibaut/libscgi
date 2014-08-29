@@ -2,7 +2,7 @@
 
 #include "scgi.h"
 
-int main(void) {
+int main(int argc, char *argv[]) {
     t_scgi *ctx = NULL;
 
     ctx = scgi_init();
@@ -13,6 +13,7 @@ int main(void) {
     scgi_printf(ctx, "\nenvs[REMOTE_ADDR] = \"%s\"\n", scgi_envs_lookup("REMOTE_ADDR", ctx));
     scgi_printf(ctx, "envs[REMOTE_PORT] = \"%s\"\n", scgi_envs_lookup("REMOTE_PORT", ctx));
     scgi_printf(ctx, "envs[QUERY_STRING] = \"%s\"\n", scgi_envs_lookup("QUERY_STRING", ctx));
+    scgi_printf(ctx, "argv[0] = \"%s\"\n", argv[0]);
 
     scgi_eor(ctx);
 
