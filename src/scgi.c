@@ -306,40 +306,20 @@ void scgi_redirectpermanent(t_scgi *ctx, const char *absolute_url, bool end) {
 
 
 static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, const char *code) {
-    t_scgi_header *header;
-    struct scgi_header_entry *he;
-    char *url, *ptr;
 
     if (absolute_url == NULL || *absolute_url == '\0') {
         return;
     }
 
-    url = strdup(absolute_url);
-    if ((ptr = strrchr(url, '\n')) != NULL) {
-        *ptr =  '\0';
-    }
-
-    scgi_header_clear(ctx);
-
     /* status */
-    header = scgi_header_status_create(code);
-    he = calloc(1, sizeof(struct scgi_header_entry));
-    if (he) {
-        he->header = header;
-        TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
-    }
+    scgi_set_status(ctx, code);
 
     /* location */
-    header = scgi_header_location_create(url);
-    he = calloc(1, sizeof(struct scgi_header_entry));
-    if (he) {
-        he->header = header;
-        TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
-    }
+    scgi_set_location(ctx, absolute_url);
 
     /* some browsers that can not handle location header */
     scgi_printf(ctx, "<html><head><title>Object moved</title></head><body>");
-    scgi_printf(ctx, "<h2>Object moved to <a href=\"%s\">here</a></h2>", url);
+    scgi_printf(ctx, "<h2>Object moved to <a href=\"%s\">here</a></h2>", absolute_url);
     scgi_printf(ctx, "</body><html>");
 
     if (end) {
@@ -387,5 +367,40 @@ void scgi_set_status(t_scgi *ctx, const char *code) {
             TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
         }
     }
+}
+
+
+void scgi_set_location(t_scgi *ctx, const char *absolute_url) {
+    t_scgi_header *header;
+    struct scgi_header_entry *he;
+    char *url, *ptr;
+    
+    if (!absolute_url || (absolute_url && absolute_url[0] == '\0')) {
+        return;
+    }
+    
+    url = strdup(absolute_url);
+    if ((ptr = strchr(url, '\n')) != NULL) {
+        *ptr =  '\0';
+    }
+    
+    header = scgi_headers_lookup(SCGI_HEADER_LOCATION, &(ctx->headers));
+    if (header) {
+        /* update */
+        if (header->data) {
+            header->free(header->data);
+        }
+        header->data = strdup(url);
+    } else {
+        /* create */
+        header = scgi_header_location_create(url);
+        he = calloc(1, sizeof(struct scgi_header_entry));
+        if (he) {
+            he->header = header;
+            TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+        }
+    }
+    
+    free(url);
 }
 

@@ -109,6 +109,10 @@ void scgi_set_content_type(t_scgi *ctx, const char *content_type);
 
 void scgi_set_status(t_scgi *ctx, const char *code);
 
+/* Location shortcut */
+
+void scgi_set_location(t_scgi *ctx, const char *absolute_url);
+
 /* Cookies shortcuts */
 
 void scgi_set_cookie(t_scgi *ctx, 
