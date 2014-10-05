@@ -105,6 +105,10 @@ void scgi_eor(t_scgi *ctx);
 
 void scgi_set_content_type(t_scgi *ctx, const char *content_type);
 
+/* Status shortcut */
+
+void scgi_set_status(t_scgi *ctx, const char *code);
+
 /* Cookies shortcuts */
 
 void scgi_set_cookie(t_scgi *ctx, 

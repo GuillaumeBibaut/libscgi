@@ -31,9 +31,55 @@
 
 #define SCGI_HEADER_STATUS "Status"
 
+t_scgi_header * scgi_header_status_create(const char *status_code);
+
+char *scgi_header_status_get_string(const char *code);
+
+
+#define SCGI_STATUS_CODE_100 "100"
+#define SCGI_STATUS_CODE_101 "101"
+
+#define SCGI_STATUS_CODE_200 "200"
+#define SCGI_STATUS_CODE_201 "201"
+#define SCGI_STATUS_CODE_202 "202"
+#define SCGI_STATUS_CODE_203 "203"
+#define SCGI_STATUS_CODE_204 "204"
+#define SCGI_STATUS_CODE_205 "205"
+#define SCGI_STATUS_CODE_206 "206"
+
+#define SCGI_STATUS_CODE_300 "300"
 #define SCGI_STATUS_CODE_301 "301"
 #define SCGI_STATUS_CODE_302 "302"
+#define SCGI_STATUS_CODE_303 "303"
+#define SCGI_STATUS_CODE_304 "304"
+#define SCGI_STATUS_CODE_305 "305"
+#define SCGI_STATUS_CODE_306 "306"
+#define SCGI_STATUS_CODE_307 "307"
 
-t_scgi_header * scgi_header_status_create(const char *status_code);
+#define SCGI_STATUS_CODE_400 "400"
+#define SCGI_STATUS_CODE_401 "401"
+#define SCGI_STATUS_CODE_402 "402"
+#define SCGI_STATUS_CODE_403 "403"
+#define SCGI_STATUS_CODE_404 "404"
+#define SCGI_STATUS_CODE_405 "405"
+#define SCGI_STATUS_CODE_406 "406"
+#define SCGI_STATUS_CODE_407 "407"
+#define SCGI_STATUS_CODE_408 "408"
+#define SCGI_STATUS_CODE_409 "409"
+#define SCGI_STATUS_CODE_410 "410"
+#define SCGI_STATUS_CODE_411 "411"
+#define SCGI_STATUS_CODE_412 "412"
+#define SCGI_STATUS_CODE_413 "413"
+#define SCGI_STATUS_CODE_414 "414"
+#define SCGI_STATUS_CODE_415 "415"
+#define SCGI_STATUS_CODE_416 "416"
+#define SCGI_STATUS_CODE_417 "417"
+
+#define SCGI_STATUS_CODE_500 "500"
+#define SCGI_STATUS_CODE_501 "501"
+#define SCGI_STATUS_CODE_502 "502"
+#define SCGI_STATUS_CODE_503 "503"
+#define SCGI_STATUS_CODE_504 "504"
+#define SCGI_STATUS_CODE_505 "505"
 
 #endif /* __SCGI_HEADER_STATUS_H__ */

@@ -363,3 +363,29 @@ static void scgi_header_clear(t_scgi *ctx) {
     TAILQ_INIT(&(ctx->headers));
 }
 
+
+void scgi_set_status(t_scgi *ctx, const char *code) {
+    t_scgi_header *header;
+    struct scgi_header_entry *he;
+
+    if (!code || (code && code[0] == '\0')) {
+        return;
+    }
+    header = scgi_headers_lookup(SCGI_HEADER_STATUS, &(ctx->headers));
+    if (header) {
+        /* update */
+        if (header->data) {
+            header->free(header->data);
+        }
+        header->data = scgi_header_status_get_string(code);
+    } else {
+        /* create */
+        header = scgi_header_status_create(code);
+        he = calloc(1, sizeof(struct scgi_header_entry));
+        if (he) {
+            he->header = header;
+            TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+        }
+    }
+}
+
