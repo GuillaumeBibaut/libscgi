@@ -83,7 +83,7 @@ static void scgi_header_status_free_data(void *data) {
 #define SCGI_STATUS_CODE_400_STRING "400 Bad Request"
 #define SCGI_STATUS_CODE_401_STRING "401 Unauthorized"
 #define SCGI_STATUS_CODE_402_STRING "402 Payment Required"
-#define SCGI_STATUS_CODE_403_STRING "403 Bad Request"
+#define SCGI_STATUS_CODE_403_STRING "403 Forbidden"
 #define SCGI_STATUS_CODE_404_STRING "404 Not Found"
 #define SCGI_STATUS_CODE_405_STRING "405 Method Not Allowed"
 #define SCGI_STATUS_CODE_406_STRING "406 Not Acceptable"
