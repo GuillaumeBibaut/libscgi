@@ -146,9 +146,7 @@ void scgi_headers_print(t_scgi *ctx) {
 void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     va_list ap;
     char *str;
-    bool flush;
-
-    flush = false;
+    
     if (ctx->buffered && !ctx->forceflush) {
         va_start(ap, fmt);
         if (vasprintf(&str, fmt, ap) == -1) {
@@ -177,23 +175,18 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
 
         if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
             scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
-            flush = true;
         }
 
         va_start(ap, fmt);
         (void)vfprintf(ctx->_outstream, fmt, ap);
         va_end(ap);
-        if (flush) {
-            fflush(ctx->_outstream);
-        }
+        fflush(ctx->_outstream);
     }
 }
 
 
 void scgi_puts(t_scgi *ctx, const char *str) {
-    bool flush;
 
-    flush = false;
     if (ctx->buffered && !ctx->forceflush) {
         if (scgi_buffer_write(&(ctx->buffer), str) != 0) {
             if (ctx->exit) {
@@ -207,13 +200,10 @@ void scgi_puts(t_scgi *ctx, const char *str) {
 
         if (!ctx->buffer.flushed && ctx->buffer.length != 0) {
             scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
-            flush = true;
         }
 
         fputs(str, ctx->_outstream);
-        if (flush) {
-            fflush(ctx->_outstream);
-        }
+        fflush(ctx->_outstream);
     }
 }
 
