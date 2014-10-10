@@ -101,6 +101,10 @@ void scgi_puts(t_scgi *ctx, const char *str);
 
 void scgi_eor(t_scgi *ctx);
 
+/* Header shortcut */
+
+void scgi_set_header(t_scgi *ctx, const char *name, const char *value);
+
 /* Content-Type shortcut */
 
 void scgi_set_content_type(t_scgi *ctx, const char *content_type);

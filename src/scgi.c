@@ -394,3 +394,30 @@ void scgi_set_location(t_scgi *ctx, const char *absolute_url) {
     free(url);
 }
 
+
+void scgi_set_header(t_scgi *ctx, const char *name, const char *value) {
+    t_scgi_header *header;
+    struct scgi_header_entry *he;
+    
+    if (!name || (name && name[0] == '\0')) {
+        return;
+    }
+    
+    header = scgi_headers_lookup(name, &(ctx->headers));
+    if (header) {
+        /* update */
+        if (header->data) {
+            header->free(header->data);
+        }
+        header->data = strdup(value);
+    } else {
+        /* create */
+        header = scgi_header_create(name, strdup(value), NULL, NULL);
+        he = calloc(1, sizeof(struct scgi_header_entry));
+        if (he) {
+            he->header = header;
+            TAILQ_INSERT_TAIL(&(ctx->headers), he, entry);
+        }
+    }
+}
+

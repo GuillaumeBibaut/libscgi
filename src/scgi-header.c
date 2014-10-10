@@ -34,6 +34,10 @@
 #include "scgi-header.h"
 
 
+static char * _default_tostring(struct scgi_header *header);
+static void _default_free(void *data);
+
+
 t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostring_func)(t_scgi_header *), void (*free_data_func)(void *)) {
     t_scgi_header *l_header = NULL;
 
@@ -44,8 +48,16 @@ t_scgi_header *scgi_header_create(const char *name, void *data, char * (*tostrin
 
     l_header->name = name;
     l_header->data = data;
-    l_header->tostring = tostring_func;
-    l_header->free = free_data_func;
+    if (tostring_func) {
+        l_header->tostring = tostring_func;
+    } else {
+        l_header->tostring = _default_tostring;
+    }
+    if (free_data_func) {
+        l_header->free = free_data_func;
+    } else {
+        l_header->free = _default_free;
+    }
 
     l_header->_writen = false;
 
@@ -78,4 +90,22 @@ t_scgi_header * scgi_headers_lookup(const char *name, struct scgi_headers_head *
     }
     return((t_scgi_header *)NULL);
 }
+
+
+static char * _default_tostring(struct scgi_header *header) {
+    
+    if (header->data) {
+        return(strdup((char *)header->data));
+    }
+    return(NULL);
+}
+
+
+static void _default_free(void *data) {
+    
+    if (data) {
+        free(data);
+    }
+}
+
 
