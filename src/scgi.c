@@ -200,6 +200,11 @@ void scgi_puts(t_scgi *ctx, const char *str) {
             scgi_free(ctx);
             exit(1);
         }
+        if (!ctx->buffer.flushed && ctx->buffer.length != 0
+            && ctx->maxbuffersize != 0 && ctx->buffer.length >= ctx->maxbuffersize) {
+            scgi_headers_print(ctx);
+            scgi_buffer_flush(&(ctx->buffer), ctx->_outstream);
+        }
     } else {
         scgi_headers_print(ctx);
 
