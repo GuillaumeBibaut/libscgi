@@ -80,6 +80,7 @@ void scgi_buffer_flush(t_scgi_buffer *buffer, FILE *outstream) {
 
     if (!buffer->flushed && buffer->length != 0) {
         fputs(buffer->buffer, outstream);
+        fflush(outstream);
         buffer->flushed = true;
     }
 }
