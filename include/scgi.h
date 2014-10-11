@@ -67,6 +67,7 @@ typedef struct scgi {
 
     bool buffered;
     bool forceflush;
+    size_t maxbuffersize;
     t_scgi_buffer buffer;
 
     cgiexitfunc exit;
