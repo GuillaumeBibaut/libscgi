@@ -115,7 +115,7 @@ void scgi_free(t_scgi *ctx) {
 char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
     struct scgi_dictionary *ev;
     
-    if (key == NULL || *key == '\0') {
+    if ((key == NULL) || (key != NULL && key[0] == '\0')) {
         return((char *)NULL);
     }
     if (TAILQ_EMPTY(&(ctx->envs))) {
@@ -297,7 +297,7 @@ void scgi_redirectpermanent(t_scgi *ctx, const char *absolute_url, bool end) {
 
 static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, const char *code) {
 
-    if (absolute_url == NULL || *absolute_url == '\0') {
+    if ((absolute_url == NULL) || (absolute_url != NULL && absolute_url[0] == '\0')) {
         return;
     }
 
@@ -338,7 +338,7 @@ void scgi_set_status(t_scgi *ctx, const char *code) {
     t_scgi_header *header;
     struct scgi_header_entry *he;
 
-    if (!code || (code && code[0] == '\0')) {
+    if ((code == NULL) || (code != NULL && code[0] == '\0')) {
         return;
     }
     header = scgi_headers_lookup(SCGI_HEADER_STATUS, &(ctx->headers));
@@ -365,7 +365,7 @@ void scgi_set_location(t_scgi *ctx, const char *absolute_url) {
     struct scgi_header_entry *he;
     char *url, *ptr;
     
-    if (!absolute_url || (absolute_url && absolute_url[0] == '\0')) {
+    if ((absolute_url == NULL) || (absolute_url != NULL && absolute_url[0] == '\0')) {
         return;
     }
     
@@ -398,9 +398,16 @@ void scgi_set_location(t_scgi *ctx, const char *absolute_url) {
 void scgi_set_header(t_scgi *ctx, const char *name, const char *value) {
     t_scgi_header *header;
     struct scgi_header_entry *he;
+    char _empty[1] = { '\0' };
+    char *val;
     
-    if (!name || (name && name[0] == '\0')) {
+    if ((name == NULL) || (name != NULL && name[0] == '\0')) {
         return;
+    }
+
+    val = (char *)value;
+    if (value == NULL) { 
+        val = _empty;
     }
     
     header = scgi_headers_lookup(name, &(ctx->headers));
@@ -409,10 +416,10 @@ void scgi_set_header(t_scgi *ctx, const char *name, const char *value) {
         if (header->data) {
             header->free(header->data);
         }
-        header->data = strdup(value);
+        header->data = strdup(val);
     } else {
         /* create */
-        header = scgi_header_create(name, strdup(value), NULL, NULL);
+        header = scgi_header_create(name, strdup(val), NULL, NULL);
         he = calloc(1, sizeof(struct scgi_header_entry));
         if (he) {
             he->header = header;
