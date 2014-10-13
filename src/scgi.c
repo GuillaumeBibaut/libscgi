@@ -146,6 +146,7 @@ void scgi_headers_print(t_scgi *ctx) {
 void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     va_list ap;
     char *str;
+    int printed;
     
     if (ctx->buffered && !ctx->forceflush) {
         va_start(ap, fmt);
@@ -183,14 +184,21 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
         }
 
         va_start(ap, fmt);
-        (void)vfprintf(ctx->_outstream, fmt, ap);
+        printed = vfprintf(ctx->_outstream, fmt, ap);
         va_end(ap);
-        fflush(ctx->_outstream);
+        if (ctx->maxbuffersize == 0
+            || (ctx->maxbuffersize != 0 && printed >= ctx->maxbuffersize)) {
+            fflush(ctx->_outstream);
+        }
     }
 }
 
 
 void scgi_puts(t_scgi *ctx, const char *str) {
+    
+    if (str == NULL || (str != NULL && str[0] == '\0')) {
+        return;
+    }
 
     if (ctx->buffered && !ctx->forceflush) {
         if (scgi_buffer_write(&(ctx->buffer), str) != 0) {
@@ -213,16 +221,17 @@ void scgi_puts(t_scgi *ctx, const char *str) {
         }
 
         fputs(str, ctx->_outstream);
-        fflush(ctx->_outstream);
+        if (ctx->maxbuffersize == 0
+            || (ctx->maxbuffersize != 0 && strlen(str) >= ctx->maxbuffersize)) {
+            fflush(ctx->_outstream);
+        }
     }
 }
 
 
 void scgi_eor(t_scgi *ctx) {
     
-    if (ctx->buffered && !ctx->buffer.flushed && ctx->buffer.length != 0) {
-        ctx->forceflush = true;
-    }
+    ctx->forceflush = true;
     scgi_printf(ctx, SCGI_EOR);
     scgi_free(ctx);
     exit(0);
