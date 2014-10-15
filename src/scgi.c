@@ -32,6 +32,7 @@
 #include <string.h>
 #include <sys/queue.h>
 #include <errno.h>
+#include <unistd.h>
 
 #include "scgi.h"
 
@@ -189,6 +190,7 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
         if (ctx->maxbuffersize == 0
             || (ctx->maxbuffersize != 0 && printed >= ctx->maxbuffersize)) {
             fflush(ctx->_outstream);
+            sleep(3);
         }
     }
 }
@@ -224,6 +226,7 @@ void scgi_puts(t_scgi *ctx, const char *str) {
         if (ctx->maxbuffersize == 0
             || (ctx->maxbuffersize != 0 && strlen(str) >= ctx->maxbuffersize)) {
             fflush(ctx->_outstream);
+            sleep(3);
         }
     }
 }
@@ -232,7 +235,7 @@ void scgi_puts(t_scgi *ctx, const char *str) {
 void scgi_eor(t_scgi *ctx) {
     
     ctx->forceflush = true;
-    scgi_printf(ctx, SCGI_EOR);
+    scgi_puts(ctx, SCGI_EOR);
     scgi_free(ctx);
     exit(0);
 }
