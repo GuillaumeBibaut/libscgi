@@ -249,6 +249,7 @@ off_t scgi_write(t_scgi *ctx, const char *buf, off_t length) {
         chunksz = ((length - total) <= SCGI_WRITE_CHUNKSZ) ? (length - total) : SCGI_WRITE_CHUNKSZ;
 
         fwrite(ptr, 1, chunksz, ctx->_outstream);
+        fflush(ctx->_outstream);
         ptr += chunksz;
         total += chunksz;
     }
