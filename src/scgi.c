@@ -198,7 +198,7 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
 
 void scgi_puts(t_scgi *ctx, const char *str) {
     
-    if (str == NULL || (str != NULL && str[0] == '\0')) {
+    if (str == NULL) {
         return;
     }
 
@@ -235,7 +235,7 @@ void scgi_puts(t_scgi *ctx, const char *str) {
 void scgi_eor(t_scgi *ctx) {
     
     ctx->forceflush = true;
-    scgi_puts(ctx, SCGI_EOR);
+    scgi_puts(ctx, "");
     scgi_free(ctx);
     exit(0);
 }
