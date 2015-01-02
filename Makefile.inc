@@ -5,4 +5,5 @@ NO_INFO=            1
 WITHOUT_DOC=        1
 NO_OBJ=             1
 NO_MAN=             1
-WARNS=              2
+WARNS=              3
+NO_WERROR=          1

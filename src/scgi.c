@@ -31,6 +31,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include <sys/queue.h>
+#include <sys/types.h>
 #include <errno.h>
 #include <unistd.h>
 
@@ -147,7 +148,7 @@ void scgi_headers_print(t_scgi *ctx) {
 void scgi_printf(t_scgi *ctx, const char *fmt, ...) {
     va_list ap;
     char *str;
-    int printed;
+    size_t printed;
     
     if (ctx->buffered && !ctx->forceflush) {
         va_start(ap, fmt);
