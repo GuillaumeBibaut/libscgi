@@ -100,6 +100,8 @@ void scgi_printf(t_scgi *ctx, const char *fmt, ...);
 
 void scgi_puts(t_scgi *ctx, const char *str);
 
+off_t scgi_write(t_scgi *ctx, const char *buf, off_t length);
+
 void scgi_eor(t_scgi *ctx);
 
 /* Header shortcut */

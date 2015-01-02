@@ -24,17 +24,48 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#ifndef __SCGI_DEFINES_H__
-#define __SCGI_DEFINES_H__
+#include <stdio.h>
+#include <stdlib.h>
 
+#include "scgi.h"
 
-#define SCGI_EOL "\r\n"
-#define SCGI_EOLSZ 2UL
+#if !defined(LOGO_FULL)
+#error "NO LOGO DEFINED!"
+#endif
 
-#define SCGI_EOR SCGI_EOL SCGI_EOL
-#define SCGI_EORSZ (SCGI_EOLSZ + SCGI_EOLSZ)
+int main(int argc, char *argv[]) {
+    FILE *image;
+    char *buf;
+    char tmp[10];
+    off_t size;
+    t_scgi *ctx = NULL;
 
-#define SCGI_WRITE_CHUNKSZ (4UL * 1024UL)
+    ctx = scgi_init();
+    ctx->buffered = true;
 
-#endif /* __SCGI_DEFINES_H__ */
+    if ((image = fopen(LOGO_FULL, "r")) == NULL) {
+        scgi_set_content_type(ctx, "text/plain");
+        scgi_puts(ctx, "ERROR");
+    } else {
+        fseeko(image, 0, SEEK_END);
+        size = ftello(image);
+        rewind(image);
+        buf = calloc(1, size);
+        if (buf == NULL) {
+            scgi_set_content_type(ctx, "text/plain");
+            scgi_puts(ctx, "ALLOC ERROR");
+        } else {
+            fread(buf, 1, size, image);
+            fclose(image);
+            scgi_set_content_type(ctx, "image/png");
+            sprintf(tmp, "%ld", size);
+            scgi_set_header(ctx, "Content-Length", tmp);
+            scgi_write(ctx, buf, size);
+            free(buf);
+        }
+    }
+    scgi_eor(ctx);
+
+    return(0);
+}
 

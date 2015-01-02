@@ -232,6 +232,29 @@ void scgi_puts(t_scgi *ctx, const char *str) {
 }
 
 
+off_t scgi_write(t_scgi *ctx, const char *buf, off_t length) {
+    char *ptr;
+    off_t total;
+    size_t chunksz;
+    
+    if (length == 0) {
+        return(0);
+    }
+
+    scgi_headers_print(ctx);
+    total = 0;
+    ptr = (char *)buf;
+    while (total < length) {
+        chunksz = ((length - total) <= SCGI_WRITE_CHUNKSZ) ? (length - total) : SCGI_WRITE_CHUNKSZ;
+
+        fwrite(ptr, 1, chunksz, ctx->_outstream);
+        ptr += chunksz;
+        total += chunksz;
+    }
+    return(total);
+}
+
+
 void scgi_eor(t_scgi *ctx) {
     
     ctx->forceflush = true;
