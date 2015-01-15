@@ -60,6 +60,7 @@ typedef struct scgi {
 
     FILE *_outstream;
     bool _writenHeaders;
+    bool withHeaders;
 
     struct scgi_dictionary_head envs;
 

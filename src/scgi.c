@@ -55,6 +55,7 @@ t_scgi *scgi_init(void) {
     if (l_cgi == NULL) {
         return((t_scgi *)NULL);
     }
+    l_cgi->withHeaders = true;
 
     TAILQ_INIT(&(l_cgi->headers));
     TAILQ_INIT(&(l_cgi->envs));
@@ -135,7 +136,7 @@ char * scgi_envs_lookup(const char *key, t_scgi *ctx) {
 void scgi_headers_print(t_scgi *ctx) {
     struct scgi_header_entry *he;
 
-    if (!ctx->_writenHeaders) {
+    if (ctx->withHeaders && !ctx->_writenHeaders) {
         TAILQ_FOREACH(he, &(ctx->headers), entry) {
             scgi_header_fprint(ctx->_outstream, he->header);
         }
