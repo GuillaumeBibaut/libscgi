@@ -42,10 +42,11 @@ t_scgi_header * scgi_header_cookie_create(const char *name,
     time_t expire,
     const char *path,
     const char *domain,
-    bool secure) {
+    bool secure,
+    bool httponly) {
     t_scgi_cookie *cookie;
 
-    cookie = scgi_cookie_create(name, value, expire, path, domain, secure);
+    cookie = scgi_cookie_create(name, value, expire, path, domain, secure, httponly);
     if (cookie == NULL) {
         return((t_scgi_header *)NULL);
     }

@@ -35,7 +35,7 @@
 #include "scgi-cookie.h"
 
 
-t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
+t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly) {
     t_scgi_cookie *cookie;
 
     cookie = (t_scgi_cookie *)malloc(sizeof(t_scgi_cookie));
@@ -58,6 +58,7 @@ t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t e
     }
     cookie->expire = expire;
     cookie->secure = secure;
+    cookie->httponly = httponly;
 
     return(cookie);
 }
@@ -156,6 +157,15 @@ char * scgi_cookie_tostring(t_scgi_cookie *cookie) {
         }
 
         strcat(buffer, "; secure");
+    }
+
+    if (cookie->httponly) {
+        if (strlen(buffer) > SCGI_COOKIE_SZ) {
+            free(buffer);
+            return(NULL);
+        }
+
+        strcat(buffer, "; httponly");
     }
 
     return(buffer);

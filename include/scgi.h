@@ -144,6 +144,27 @@ void scgi_clear_cookie(t_scgi *ctx,
     const char *domain,
     bool secure);
 
+void scgi_set_cookie_httponly(t_scgi *ctx, 
+    const char *name,
+    const char *value,
+    time_t expire,
+    const char *path,
+    const char *domain,
+    bool secure);
+
+void scgi_set_cookie_permanent_httponly(t_scgi *ctx,
+    const char *name,
+    const char *value,
+    const char *path,
+    const char *domain,
+    bool secure);
+
+void scgi_clear_cookie_httponly(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
+
 /* Status + Location shortcut */
 
 void scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end);
