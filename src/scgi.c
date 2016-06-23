@@ -41,7 +41,7 @@
 extern char **environ;
 
 static void _scgi_redirect(t_scgi *ctx, const char *absolute_url, bool end, const char *code);
-static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly);
+static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly, bool todelete);
 
 static void scgi_header_clear(t_scgi *ctx);
 
@@ -289,7 +289,7 @@ void scgi_set_content_type(t_scgi *ctx, const char *content_type) {
 }
 
 
-static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly) {
+static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly, bool todelete) {
     t_scgi_header *header;
     t_scgi_cookie *cookie;
     struct scgi_header_entry *he;
@@ -300,13 +300,13 @@ static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, t
         if (header->data) {
             header->free(header->data);
         }
-        cookie = scgi_cookie_create(name, value, expire, path, domain, secure, httponly);
+        cookie = scgi_cookie_create(name, value, expire, path, domain, secure, httponly, todelete);
         if (cookie != NULL) {
             header->data = cookie;
         }
     } else {
         /* create cookie header */
-        header = scgi_header_cookie_create(name, value, expire, path, domain, secure, httponly);
+        header = scgi_header_cookie_create(name, value, expire, path, domain, secure, httponly, todelete);
         if (header != NULL) {
             he = calloc(1, sizeof(struct scgi_header_entry));
             if (he) {
@@ -320,13 +320,13 @@ static void _scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, t
 
 void scgi_set_cookie(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
 
-    _scgi_set_cookie(ctx, name, value, expire, path, domain, secure, false);
+    _scgi_set_cookie(ctx, name, value, expire, path, domain, secure, false, false);
 }
 
 
 void scgi_set_cookie_httponly(t_scgi *ctx, const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure) {
 
-    _scgi_set_cookie(ctx, name, value, expire, path, domain, secure, true);
+    _scgi_set_cookie(ctx, name, value, expire, path, domain, secure, true, false);
 }
 
 
@@ -338,7 +338,13 @@ void scgi_set_cookie_permanent(t_scgi *ctx, const char *name, const char *value,
 
 void scgi_clear_cookie(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure) {
 
-    scgi_set_cookie(ctx, name, NULL, -1, path, domain, secure);
+    scgi_set_cookie(ctx, name, NULL, 0, path, domain, secure);
+}
+
+
+void scgi_delete_cookie(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure) {
+
+    _scgi_set_cookie(ctx, name, NULL, 0, path, domain, secure, false, true);
 }
 
 
@@ -350,7 +356,13 @@ void scgi_set_cookie_permanent_httponly(t_scgi *ctx, const char *name, const cha
 
 void scgi_clear_cookie_httponly(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure) {
 
-    scgi_set_cookie_httponly(ctx, name, NULL, -1, path, domain, secure);
+    scgi_set_cookie_httponly(ctx, name, NULL, 0, path, domain, secure);
+}
+
+
+void scgi_delete_cookie_httponly(t_scgi *ctx, const char *name, const char *path, const char *domain, bool secure) {
+
+    _scgi_set_cookie(ctx, name, NULL, 0, path, domain, secure, true, true);
 }
 
 

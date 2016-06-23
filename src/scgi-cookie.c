@@ -35,7 +35,7 @@
 #include "scgi-cookie.h"
 
 
-t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly) {
+t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t expire, const char *path, const char *domain, bool secure, bool httponly, bool todelete) {
     t_scgi_cookie *cookie;
 
     cookie = (t_scgi_cookie *)malloc(sizeof(t_scgi_cookie));
@@ -59,6 +59,7 @@ t_scgi_cookie * scgi_cookie_create(const char *name, const char *value, time_t e
     cookie->expire = expire;
     cookie->secure = secure;
     cookie->httponly = httponly;
+    cookie->todelete = todelete;
 
     return(cookie);
 }
@@ -98,7 +99,7 @@ char * scgi_cookie_tostring(t_scgi_cookie *cookie) {
     }
 
     encname = scgi_urlencode(cookie->name, strlen(cookie->name));
-    if (cookie->value == NULL) {
+    if (cookie->value == NULL || cookie->todelete) {
         encvalue = strdup("");
     } else {
         encvalue = scgi_urlencode(cookie->value, strlen(cookie->value));
@@ -135,7 +136,12 @@ char * scgi_cookie_tostring(t_scgi_cookie *cookie) {
         strcat(buffer, cookie->path);
     }
 
-    if (cookie->expire > 0) {
+    if (cookie->todelete) {
+        /* one full day, a past datetime is enough */
+        cookie->expire = -(24 * 60 * 60);
+    }
+
+    if (cookie->expire != 0) {
         t = time(NULL);
         t += cookie->expire;
         tps = gmtime(&t);

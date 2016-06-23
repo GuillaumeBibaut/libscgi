@@ -39,7 +39,8 @@ t_scgi_header * scgi_header_cookie_create(const char *name,
     const char *path,
     const char *domain,
     bool secure,
-    bool httponly);
+    bool httponly,
+    bool todelete);
 
 t_scgi_header * scgi_header_cookies_lookup(const char *name, struct scgi_headers_head *headers);
 

@@ -144,6 +144,18 @@ void scgi_clear_cookie(t_scgi *ctx,
     const char *domain,
     bool secure);
 
+void scgi_delete_cookie(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
+
+void scgi_delete_cookie(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
+
 void scgi_set_cookie_httponly(t_scgi *ctx, 
     const char *name,
     const char *value,
@@ -160,6 +172,18 @@ void scgi_set_cookie_permanent_httponly(t_scgi *ctx,
     bool secure);
 
 void scgi_clear_cookie_httponly(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
+
+void scgi_delete_cookie_httponly(t_scgi *ctx,
+    const char *name,
+    const char *path,
+    const char *domain,
+    bool secure);
+
+void scgi_delete_cookie_httponly(t_scgi *ctx,
     const char *name,
     const char *path,
     const char *domain,

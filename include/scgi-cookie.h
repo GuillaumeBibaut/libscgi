@@ -41,6 +41,7 @@ typedef struct scgi_cookie {
     char *domain;
     bool secure;
     bool httponly;
+    bool todelete;
 } t_scgi_cookie;
 
 
@@ -50,7 +51,8 @@ t_scgi_cookie * scgi_cookie_create(const char *name,
     const char *path,
     const char *domain,
     bool secure,
-    bool httponly);
+    bool httponly,
+    bool todelete);
 
 void scgi_cookie_free(t_scgi_cookie *cookie);
 
